@@ -16,7 +16,7 @@ import { RouterLink } from 'src/routes/components';
 
 import { POST_SORT_OPTIONS } from 'src/_mock';
 import { useGetPosts } from 'src/actions/blog';
-import { DashboardContent } from 'src/layouts/dashboard';
+import { BlogLayout } from 'src/layouts/blog';
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
@@ -49,7 +49,7 @@ export function PostListView() {
   );
 
   return (
-    <DashboardContent>
+    <BlogLayout>
       <CustomBreadcrumbs
         heading="List"
         links={[
@@ -112,7 +112,7 @@ export function PostListView() {
       </Tabs>
 
       <PostListHorizontal posts={dataFiltered} loading={postsLoading} />
-    </DashboardContent>
+    </BlogLayout>
   );
 }
 
