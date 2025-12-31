@@ -41,7 +41,7 @@ export function PostCarouselFeatured({ posts, sx }: Props) {
         ))}
       </Carousel>
 
-      {/* Navegação: Setas Laterais (Laranja/Primary) */}
+      {/* Navegação: Setas circulares laranjas */}
       <CarouselArrowBasicButtons
         {...carousel.arrows}
         options={carousel.options}
@@ -51,13 +51,17 @@ export function PostCarouselFeatured({ posts, sx }: Props) {
           zIndex: 9,
           px: { xs: 1, md: 5 },
           position: 'absolute',
-          color: 'primary.main',
+          color: '#FA541C',
           justifyContent: 'space-between',
           transform: 'translateY(-50%)',
+          '& button': {
+            bgcolor: alpha('#000', 0.3),
+            '&:hover': { bgcolor: alpha('#FA541C', 0.8), color: '#fff' },
+          }
         }}
       />
 
-      {/* Navegação: Pontos (Dots) */}
+      {/* Navegação: Dots estilo Pill */}
       <CarouselDotButtons
         {...carousel.dots}
         sx={{
@@ -67,7 +71,13 @@ export function PostCarouselFeatured({ posts, sx }: Props) {
           display: 'flex',
           position: 'absolute',
           justifyContent: 'center',
-          color: 'primary.main',
+          color: '#FA541C',
+          '& .MuiButtonBase-root': {
+            width: 8,
+            height: 8,
+            transition: 'all 0.3s',
+            '&.Mui-selected': { width: 24, borderRadius: 8 }
+          }
         }}
       />
     </Box>
@@ -92,7 +102,7 @@ function PostItem({ post }: { post: IPostItem }) {
         px: { xs: 2, md: 10 },
       }}
     >
-      {/* 1. Efeito de Fundo: Imagem Desfocada (Full Screen) */}
+      {/* 1. Fundo: Desfoque otimizado para Glassmorphism */}
       <Box
         sx={{
           top: 0,
@@ -101,7 +111,7 @@ function PostItem({ post }: { post: IPostItem }) {
           height: 1,
           zIndex: -1,
           position: 'absolute',
-          overflow: 'hidden', // Garante que o blur não vaze para fora do container
+          overflow: 'hidden',
           '&:before': {
             content: '""',
             top: 0,
@@ -110,7 +120,7 @@ function PostItem({ post }: { post: IPostItem }) {
             height: 1,
             zIndex: 1,
             position: 'absolute',
-            bgcolor: alpha(theme.palette.common.black, 0.7),
+            bgcolor: alpha('#000', 0.5),
           },
         }}
       >
@@ -118,59 +128,56 @@ function PostItem({ post }: { post: IPostItem }) {
           alt={title} 
           src={coverUrl} 
           sx={{ 
-            width: 1,          // Força a ocupação de 100% da largura
-            height: 1,         // Força a ocupação de 100% da altura
-            filter: 'blur(24px)', 
-            objectFit: 'cover', // COMPORTAMENTO CRÍTICO: Preenche o espaço mantendo a proporção
-            objectPosition: 'center' // Garante que a imagem sempre expanda a partir do centro
+            width: 1, 
+            height: 1, 
+            filter: 'blur(12px)', 
+            objectFit: 'cover',
+            objectPosition: 'center'
           }} 
         />
       </Box>
 
-      {/* 2. Card Centralizado (Layout 2 Colunas) */}
+      {/* 2. Card: Efeito Vidro Translúcido corrigido */}
       <Card
         sx={{
           width: 1,
           maxWidth: 1000,
           display: 'flex',
           overflow: 'hidden',
-          bgcolor: 'background.paper',
-          boxShadow: theme.customShadows.z24,
           flexDirection: { xs: 'column', md: 'row' },
+          boxShadow: theme.customShadows.z24,
+          bgcolor: alpha(theme.palette.background.paper, 0.7),
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: `1px solid ${alpha('#fff', 0.12)}`,
         }}
       >
-        {/* Lado Esquerdo: Imagem do Post */}
         <Box sx={{ width: { xs: 1, md: 0.6 }, position: 'relative' }}>
           <Image alt={title} src={coverUrl} ratio="4/3" />
         </Box>
 
-        {/* Lado Direito: Informações e Conteúdo */}
         <Stack sx={{ width: { xs: 1, md: 0.4 }, p: { xs: 3, md: 5 } }}>
           <Stack
             direction="row"
             alignItems="center"
             spacing={1.5}
-            sx={{ mb: 2, typography: 'caption', color: 'text.disabled' }}
+            sx={{ mb: 2, typography: 'caption', color: 'text.secondary' }}
           >
             {fDate(createdAt)}
-            <Box
-              component="span"
-              sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'currentColor' }}
-            />
+            <Box component="span" sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'currentColor' }} />
             8 min read
           </Stack>
 
           <Typography
             component={RouterLink}
             href={paths.post.details(title)}
-            variant="h4"
+            variant="h3"
             sx={{
               mb: 2,
+              fontWeight: 800,
               color: 'text.primary',
               textDecoration: 'none',
-              transition: theme.transitions.create(['color']),
-              '&:hover': { color: 'primary.main' },
-              // Truncar texto após 3 linhas
+              '&:hover': { color: '#FA541C' },
               display: '-webkit-box',
               WebkitLineClamp: 3,
               WebkitBoxOrient: 'vertical',
@@ -180,24 +187,24 @@ function PostItem({ post }: { post: IPostItem }) {
             {title}
           </Typography>
 
+          {/* CORREÇÃO AQUI: Typography fechado corretamente */}
           <Typography
             variant="body2"
             sx={{
               mb: 5,
               color: 'text.secondary',
-              // Truncar descrição para manter o card alinhado
               display: '-webkit-box',
               WebkitLineClamp: 3,
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
             }}
           >
-            {description || 'Explore as últimas tendências e novidades em nossa produção...'}
+            {description}
           </Typography>
 
           <Stack direction="row" alignItems="center" spacing={2} sx={{ mt: 'auto' }}>
             <Avatar src={author?.avatarUrl} alt={author?.name} />
-            <Typography variant="subtitle2">{author?.name}</Typography>
+            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>{author?.name}</Typography>
           </Stack>
         </Stack>
       </Card>
