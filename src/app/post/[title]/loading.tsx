@@ -1,4 +1,5 @@
-import { PostDetailsSkeleton } from 'src/sections/blog/post-skeleton';
+
+import { PostDetailsSkeleton } from 'src/sections/blog/item';
 
 // ----------------------------------------------------------------------
 

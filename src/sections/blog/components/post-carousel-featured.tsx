@@ -15,7 +15,7 @@ import { RouterLink } from 'src/routes/components';
 import { fDate } from 'src/utils/format-time';
 
 import { Image } from 'src/components/image';
-import { Carousel, useCarousel, CarouselDotButtons, CarouselArrowBasicButtons } from 'src/components/carousel';
+import { Carousel, useCarousel, CarouselDotButtons } from 'src/components/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 
 // ----------------------------------------------------------------------
@@ -41,26 +41,6 @@ export function PostCarouselFeatured({ posts, sx }: Props) {
         ))}
       </Carousel>
 
-      {/* Navegação: Setas circulares laranjas */}
-      <CarouselArrowBasicButtons
-        {...carousel.arrows}
-        options={carousel.options}
-        sx={{
-          top: '50%',
-          width: 1,
-          zIndex: 9,
-          px: { xs: 1, md: 5 },
-          position: 'absolute',
-          color: '#FA541C',
-          justifyContent: 'space-between',
-          transform: 'translateY(-50%)',
-          '& button': {
-            bgcolor: alpha('#000', 0.3),
-            '&:hover': { bgcolor: alpha('#FA541C', 0.8), color: '#fff' },
-          }
-        }}
-      />
-
       {/* Navegação: Dots estilo Pill */}
       <CarouselDotButtons
         {...carousel.dots}
@@ -76,8 +56,8 @@ export function PostCarouselFeatured({ posts, sx }: Props) {
             width: 8,
             height: 8,
             transition: 'all 0.3s',
-            '&.Mui-selected': { width: 24, borderRadius: 8 }
-          }
+            '&.Mui-selected': { width: 24, borderRadius: 8 },
+          },
         }}
       />
     </Box>
@@ -124,16 +104,16 @@ function PostItem({ post }: { post: IPostItem }) {
           },
         }}
       >
-        <Image 
-          alt={title} 
-          src={coverUrl} 
-          sx={{ 
-            width: 1, 
-            height: 1, 
-            filter: 'blur(12px)', 
+        <Image
+          alt={title}
+          src={coverUrl}
+          sx={{
+            width: 1,
+            height: 1,
+            filter: 'blur(12px)',
             objectFit: 'cover',
-            objectPosition: 'center'
-          }} 
+            objectPosition: 'center',
+          }}
         />
       </Box>
 
@@ -164,7 +144,10 @@ function PostItem({ post }: { post: IPostItem }) {
             sx={{ mb: 2, typography: 'caption', color: 'text.secondary' }}
           >
             {fDate(createdAt)}
-            <Box component="span" sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'currentColor' }} />
+            <Box
+              component="span"
+              sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'currentColor' }}
+            />
             8 min read
           </Stack>
 
@@ -204,7 +187,9 @@ function PostItem({ post }: { post: IPostItem }) {
 
           <Stack direction="row" alignItems="center" spacing={2} sx={{ mt: 'auto' }}>
             <Avatar src={author?.avatarUrl} alt={author?.name} />
-            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>{author?.name}</Typography>
+            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+              {author?.name}
+            </Typography>
           </Stack>
         </Stack>
       </Card>

@@ -31,6 +31,8 @@ const _posts = Array.from({ length: 8 }, (_, index) => ({
   publish: 'published',
   content: _sentences[index+1] + _sentences[index+2],
   metaTitle: _postTitles[index],
+  metaDescription: _descriptions[index],
+  metaKeywords: ['Design', 'UX', 'UI', 'Programming', 'Business'],
   totalViews: _mock.number.nativeL(index),
   totalShares: _mock.number.nativeL(index),
   totalComments: (index === 2 && 8) || (index === 3 && 12) || 2,

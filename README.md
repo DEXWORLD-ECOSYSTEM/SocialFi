@@ -108,58 +108,103 @@ Essa é a minha arvore do front end dedicada ao sistema de autenticação:
 
 ---
 
-## Arquitetura do Módulo de Blog
+## Arquitetura do Módulo de Blog (Versão Escalável)
 
-A arquitetura do blog segue um padrão moderno de Next.js, separando claramente a busca de dados (no servidor), a estrutura da página e os componentes de UI reutilizáveis.
+A arquitetura do blog foi refatorada para um padrão de alta escalabilidade, pronta para suportar uma plataforma de larga escala. Mantendo a base moderna do Next.js, a nova estrutura aprimora a separação de responsabilidades, introduz camadas de resiliência de dados e otimiza a organização de componentes para facilitar a manutenção e o crescimento futuro.
 
-### Fluxo de Dados (Do Servidor para o Ecrã)
+### Fluxo de Dados Resiliente (Do Servidor à Tela)
 
-1.  **Requisição do Utilizador**: O utilizador acede à página `/post`.
-2.  **Página do Servidor (Route)**: O Next.js executa o ficheiro `src/app/post/page.tsx`.
-3.  **Ação de Dados (Data Fetching)**: Dentro de `page.tsx`, a função `getPosts()` de `src/actions/blog-ssr.ts` é chamada no servidor.
-4.  **Fonte de Dados (Mock)**: A função `getPosts()` atualmente lê os dados da variável `_posts` (localizada em `src/_mock/_blog.ts`).
-5.  **Props para o Cliente**: Os dados (`posts`) são retornados e passados como `props` para o componente de view: `<PostListHomeView posts={posts} />`.
-6.  **Renderização da UI**: O componente `<PostListHomeView />`, que é um Componente de Cliente (`'use client'`), recebe os `posts` e renderiza a UI no navegador.
+O fluxo de dados foi enriquecido com camadas de validação e transformação, garantindo robustez desde a fonte de dados até a interface do usuário.
 
-### Árvore de Arquivos e Componentes
+1.  **Requisição e Estado de Carregamento**: O usuário acessa a página `/post`. Imediatamente, o Next.js renderiza o `src/app/post/loading.tsx`, exibindo *Skeleton Screens* para o usuário e melhorando a percepção de performance.
 
-```
+2.  **Execução no Servidor (`page.tsx`)**: Em paralelo, o Next.js executa a página `src/app/post/page.tsx` no servidor.
+
+3.  **Ação de Dados (`actions/blog-ssr.ts`)**: A página chama a função `getPosts()` (uma Server Action) de `src/actions/blog-ssr.ts`.
+
+4.  **Busca e Validação dos Dados Brutos**:
+    *   A função `getPosts()` busca os dados da fonte (atualmente o Mock em `src/_mock/_blog.ts`, futuramente uma API externa).
+    *   **NOVO**: Os dados brutos recebidos são validados contra um esquema definido em `src/schemas/blog-zod.ts` usando a biblioteca Zod. Se os dados não corresponderem ao contrato esperado (ex: um campo obrigatório está faltando), a função lança um erro.
+
+5.  **Mapeamento para o Domínio da UI**:
+    *   **NOVO**: Após a validação, os dados passam por uma camada de mapeamento em `src/actions/mappers/blog-mapper.ts`. Esta função transforma os dados da API (ex: `cover_image`, `published_at`) para o formato que os componentes de UI esperam (ex: `coverUrl`, `createdAt`). Isso desacopla a UI da estrutura da API.
+
+6.  **Tratamento de Erros (`error.tsx`)**: Se qualquer etapa da busca, validação ou mapeamento falhar, o Next.js automaticamente captura o erro e renderiza o arquivo `src/app/post/error.tsx`, que apresenta uma mensagem amigável e uma opção para tentar novamente, evitando que a aplicação inteira quebre.
+
+7.  **Injeção de Props para o Cliente**: Com os dados validados e mapeados, eles são retornados como `props` para o componente de view principal: `<PostListHomeView posts={posts} />`.
+
+8.  **Renderização da UI no Cliente**: O componente de view, sendo um Componente de Cliente (`'use client'`), recebe os dados já prontos e renderiza a interface final.
+
+### Árvore de Arquivos e Componentes Otimizada
+
+A estrutura de diretórios foi desenhada para máxima organização, modularidade e escalabilidade.
+
+```bash
 src/
+├── 📁 actions/
+│   ├── 📄 blog-ssr.ts          # Server Actions: getPosts, getPostByTitle
+│   └── 📁 mappers/
+│       └── 📄 blog-mapper.ts   # NOVO: Transforma dados da API/Mock para o padrão da UI
+│
 ├── 📁 app/
 │   └── 📁 post/
-│       ├── 📄 page.tsx  (Ponto de Entrada da Lista de Posts)
-│       └── 📁 [title]/
-│           └── 📄 page.tsx  (Ponto de Entrada do Detalhe do Post)
+│       ├── 📄 page.tsx         # Listagem principal (Injeção de Props)
+│       ├── 📄 loading.tsx      # NOVO: Skeletons automáticos para SSR
+│       ├── 📄 error.tsx        # NOVO: Boundary para falhas na busca de dados
+│       ├── 📁 [title]/         # Rota dinâmica para detalhes
+│       │   ├── 📄 page.tsx
+│       │   ├── 📄 loading.tsx
+│       │   └── 📄 error.tsx
+│       └── 📁 category/        # NOVO: Rota para categorias sugerida
+│           └── 📁 [slug]/
+│               └── 📄 page.tsx
 │
-├── 📁 actions/
-│   └── 📄 blog-ssr.ts  (Lógica de Dados do Servidor)
+├── 📁 schemas/                 # NOVO: Validação de contratos de dados
+│   └── 📄 blog-zod.ts          # Esquemas Zod para validar Mock/API
 │
 ├── 📁 sections/
 │   └── 📁 blog/
-│       ├── 📁 view/  (Componentes de Layout de Página)
-│       │   ├── 📄 post-list-home-view.tsx  (Layout da Página de Lista)
-│       │   └── 📄 post-details-view.tsx  (Layout da Página de Detalhe)
+│       ├── 📁 view/            # Layouts de Página (Maestros da UI)
+│       │   ├── 📄 post-list-home-view.tsx
+│       │   └── 📄 post-details-view.tsx
 │       │
-│       ├── 📄 post-carousel-featured.tsx  (Carrossel de Destaques)
-│       ├── 📄 post-list.tsx  (Grelha de Posts)
-│       ├── 📄 post-item.tsx  (Item Individual da Grelha/Card)
-│       ├── 📄 post-search.tsx  (Componente de Busca)
-│       ├── 📄 post-sort.tsx  (Componente de Ordenação)
-│       └── 📄 ... (outros componentes de detalhe e comentários)
-│
-├── 📁 components/  (Componentes de UI Genéricos)
-│   ├── 📁 carousel/
-│   └── 📁 image/
+│       ├── 📁 components/      # NOVO: Componentes de UI complexos e reutilizáveis
+│       │   ├── 📄 post-carousel-featured.tsx
+│       │   ├── 📄 post-search.tsx
+│       │   └── 📄 post-sort.tsx
+│       │
+│       ├── 📁 item/            # NOVO: Variações de cards de post (unidades atômicas)
+│       │   ├── 📄 post-item.tsx
+│       │   └── 📄 post-item-skeleton.tsx
+│       │
+│       ├── 📁 forms/           # NOVO: Componentes para interação do usuário
+│       │   └── 📄 post-comment-form.tsx
+│       │
+│       ├── 📄 post-list.tsx    # Componente que renderiza a "grelha" de posts
+│       └── 📄 constants.ts     # NOVO: Constantes do módulo (opções de sort, etc.)
 │
 ├── 📁 types/
-│   └── 📄 blog.ts  (Definições de Tipos TypeScript)
+│   └── 📄 blog.ts              # Definições de tipos TypeScript
 │
 ├── 📁 _mock/
-│   └── 📄 _blog.ts  (Fonte de Dados Mock)
+│   └── 📄 _blog.ts             # Fonte de dados Mock
 │
 └── 📁 routes/
-    └── 📄 paths.ts  (Gerador de URLs)
+    └── 📄 paths.ts             # Gerador de URLs centralizado
 ```
+
+### Análise das Melhorias Estruturais
+
+*   **`schemas/`**: Introduz uma camada de validação (Contrato de Dados) que torna a aplicação resiliente a mudanças inesperadas na API, prevenindo bugs em produção.
+*   **`actions/mappers/`**: Cria uma camada de anti-corrupção, desacoplando o design dos seus componentes da estrutura de dados do backend. Você pode mudar a API sem precisar refatorar a UI.
+*   **`loading.tsx` e `error.tsx`**: Implementam os padrões de UI/UX mais modernos do Next.js (Suspense e Error Boundaries), melhorando drasticamente a experiência do usuário durante o carregamento e em caso de falhas.
+*   **Segmentação em `sections/blog/`**:
+    *   **`components/`**: Agrupa componentes complexos que orquestram a interatividade (busca, sort, carrossel).
+    *   **`item/`**: Isola as unidades mais atômicas (os cards de post), facilitando a criação de novas variações (compacto, largo, etc.) sem impacto no resto do sistema.
+    *   **`forms/`**: Separa claramente os componentes responsáveis pela entrada de dados do usuário.
+*   **`constants.ts`**: Centraliza a configuração do módulo, permitindo que um desenvolvedor altere opções (como os critérios de ordenação) em um único lugar, sem precisar "caçar" a lógica nos componentes.
+
+Esta nova arquitetura não apenas organiza o código existente, mas estabelece uma fundação sólida e escalável para o futuro da plataforma.
 
 ---
 

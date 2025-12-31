@@ -6,23 +6,23 @@ import { kebabCase } from 'es-toolkit';
 import { CONFIG } from 'src/global-config';
 import { getPost, getLatestPosts, getPosts } from 'src/actions/blog-ssr';
 
-import { PostDetailsHomeView } from 'src/sections/blog/view';
+import { PostDetailsView } from 'src/sections/blog/view';
 
 // ----------------------------------------------------------------------
 
 export const metadata: Metadata = { title: `Post details - ${CONFIG.appName}` };
 
 type Props = {
-  params: Promise<{ title: string }>;
+  params: { title: string };
 };
 
 export default async function Page({ params }: Props) {
-  const { title } = await params;
+  const { title } = params;
 
-  const { post } = await getPost(title);
-  const { latestPosts } = await getLatestPosts(title);
+  const post = await getPost(title);
+  const latestPosts = await getLatestPosts(title);
 
-  return <PostDetailsHomeView post={post} latestPosts={latestPosts} />;
+  return <PostDetailsView post={post.post} latestPosts={latestPosts.posts} />;
 }
 
 // ----------------------------------------------------------------------
@@ -39,8 +39,8 @@ export default async function Page({ params }: Props) {
  * NOTE: Remove all "generateStaticParams()" functions if not using static exports.
  */
 export async function generateStaticParams() {
-  const { posts } = await getPosts();
-  const data: IPostItem[] = CONFIG.isStaticExport ? posts : posts.slice(0, 1);
+  const posts = await getPosts();
+  const data: IPostItem[] = CONFIG.isStaticExport ? posts.posts : posts.posts.slice(0, 1);
 
   return data.map((post) => ({
     title: kebabCase(post.title),
