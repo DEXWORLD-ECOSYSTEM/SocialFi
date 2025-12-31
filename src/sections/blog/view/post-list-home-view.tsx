@@ -18,6 +18,7 @@ import { EmptyContent } from 'src/components/empty-content';
 import { PostList } from '../post-list';
 import { PostSort } from '../post-sort';
 import { PostSearch } from '../post-search';
+import { PostCarouselFeatured } from '../post-carousel-featured';
 
 // ----------------------------------------------------------------------
 
@@ -28,14 +29,20 @@ type Props = {
 export function PostListHomeView({ posts }: Props) {
   const [sortBy, setSortBy] = useState('latest');
 
-  const dataFiltered = applyFilter({ inputData: posts, sortBy });
+  const featuredPosts = posts.slice(0, 5);
+
+  const regularPosts = posts.slice(5);
+
+  const dataFiltered = applyFilter({ inputData: regularPosts, sortBy });
 
   const renderNoData = () => <EmptyContent filled sx={{ py: 10 }} />;
 
-  const isEmpty = !posts.length;
+  const isEmpty = !regularPosts.length;
 
   return (
     <Container sx={{ mb: 10 }}>
+      <PostCarouselFeatured posts={featuredPosts} sx={{ mb: 10 }} />
+
       <Typography variant="h4" sx={[{ mb: 3, mt: { xs: 1, md: 3 } }]}>
         Blog
       </Typography>

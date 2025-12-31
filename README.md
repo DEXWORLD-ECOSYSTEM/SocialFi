@@ -105,3 +105,58 @@ Essa é a minha arvore do front end dedicada ao sistema de autenticação:
     │       ├── index.ts
     │       ├── use-auth-context.ts # Hook para acessar o contexto de autenticação
     │       └── use-mocked-user.ts  # Hook para usar dados de usuário mockados
+
+---
+
+## Arquitetura do Módulo de Blog
+
+A arquitetura do blog segue um padrão moderno de Next.js, separando claramente a busca de dados (no servidor), a estrutura da página e os componentes de UI reutilizáveis.
+
+### Fluxo de Dados (Do Servidor para o Ecrã)
+
+1.  **Requisição do Utilizador**: O utilizador acede à página `/post`.
+2.  **Página do Servidor (Route)**: O Next.js executa o ficheiro `src/app/post/page.tsx`.
+3.  **Ação de Dados (Data Fetching)**: Dentro de `page.tsx`, a função `getPosts()` de `src/actions/blog-ssr.ts` é chamada no servidor.
+4.  **Fonte de Dados (Mock)**: A função `getPosts()` atualmente lê os dados da variável `_posts` (localizada em `src/_mock/_blog.ts`).
+5.  **Props para o Cliente**: Os dados (`posts`) são retornados e passados como `props` para o componente de view: `<PostListHomeView posts={posts} />`.
+6.  **Renderização da UI**: O componente `<PostListHomeView />`, que é um Componente de Cliente (`'use client'`), recebe os `posts` e renderiza a UI no navegador.
+
+### Árvore de Arquivos e Componentes
+
+```
+src/
+├── 📁 app/
+│   └── 📁 post/
+│       ├── 📄 page.tsx  (Ponto de Entrada da Lista de Posts)
+│       └── 📁 [title]/
+│           └── 📄 page.tsx  (Ponto de Entrada do Detalhe do Post)
+│
+├── 📁 actions/
+│   └── 📄 blog-ssr.ts  (Lógica de Dados do Servidor)
+│
+├── 📁 sections/
+│   └── 📁 blog/
+│       ├── 📁 view/  (Componentes de Layout de Página)
+│       │   ├── 📄 post-list-home-view.tsx  (Layout da Página de Lista)
+│       │   └── 📄 post-details-view.tsx  (Layout da Página de Detalhe)
+│       │
+│       ├── 📄 post-carousel-featured.tsx  (Carrossel de Destaques)
+│       ├── 📄 post-list.tsx  (Grelha de Posts)
+│       ├── 📄 post-item.tsx  (Item Individual da Grelha/Card)
+│       ├── 📄 post-search.tsx  (Componente de Busca)
+│       ├── 📄 post-sort.tsx  (Componente de Ordenação)
+│       └── 📄 ... (outros componentes de detalhe e comentários)
+│
+├── 📁 components/  (Componentes de UI Genéricos)
+│   ├── 📁 carousel/
+│   └── 📁 image/
+│
+├── 📁 types/
+│   └── 📄 blog.ts  (Definições de Tipos TypeScript)
+│
+├── 📁 _mock/
+│   └── 📄 _blog.ts  (Fonte de Dados Mock)
+│
+└── 📁 routes/
+    └── 📄 paths.ts  (Gerador de URLs)
+```
