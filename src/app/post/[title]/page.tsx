@@ -20,9 +20,9 @@ export default async function Page({ params }: Props) {
   const { title } = params;
 
   const post = await getPost(title);
-  const latestPosts = await getLatestPosts(title);
+  await getLatestPosts(title);
 
-  return <PostDetailsView post={post.post} latestPosts={latestPosts.posts} />;
+  return <PostDetailsView post={post.post} />;
 }
 
 // ----------------------------------------------------------------------

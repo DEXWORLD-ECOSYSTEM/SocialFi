@@ -2,7 +2,7 @@
 
 import type { IPostItem } from 'src/types/blog';
 
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid';
 
 import { PostItem } from './post-item';
 
@@ -17,6 +17,7 @@ export function PostList({ posts }: Props) {
     <Grid container spacing={3}>
       {posts.map((post) => (
         <Grid
+          item
           key={post.id}
           xs={12}
           sm={6}

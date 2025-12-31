@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 
-import { usePopover } from 'src/hooks/use-popover';
+import { usePopover } from 'src/components/custom-popover/hooks';
 
 import { Iconify } from 'src/components/iconify';
 import { CustomPopover } from 'src/components/custom-popover';

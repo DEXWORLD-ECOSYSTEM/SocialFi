@@ -8,7 +8,7 @@ import Pagination from '@mui/material/Pagination';
 
 import { useBlog } from 'src/hooks/use-blog';
 
-import { PostList } from '../item/post-list';
+import { PostList } from 'src/sections/blog/item/post-list';
 import { PostSort } from '../components/post-sort';
 import { PostSearch } from '../components/post-search';
 import { PostCarouselFeatured } from '../components/post-carousel-featured';
