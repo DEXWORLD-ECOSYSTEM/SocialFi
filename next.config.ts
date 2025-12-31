@@ -23,6 +23,11 @@ const nextConfig: NextConfig = {
   env: {
     BUILD_STATIC_EXPORT: JSON.stringify(isStaticExport),
   },
+  experimental: {
+    allowedDevOrigins: [
+      '8082-firebase-blog-2026-1766955871120.cluster-r7kbxfo3fnev2vskbkhhphetq6.cloudworkstations.dev',
+    ],
+  },
   // Without --turbopack (next dev)
   webpack(config) {
     config.module.rules.push({
