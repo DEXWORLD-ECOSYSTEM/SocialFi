@@ -2,8 +2,11 @@
 
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 
-// Importação das 8 Seções Objetivas
+import { IPostItem } from 'src/types/blog';
+
+// Importação das 8 Seções Refinadas
 import { PostFeatured } from '../components/featured';     // 1. Hero
 import { PostAuthors } from '../components/authors';       // 2. Criadores
 import { PostCommunity } from '../components/community';   // 3. Comunidades
@@ -13,8 +16,6 @@ import { PostRecent } from '../item/recent';               // 6. Recentes
 import { PostTrending } from '../item/trending';           // 7. Alta
 import { PostNewsletter } from '../forms/newsletter';       // 8. Newsletter
 
-import { IPostItem } from 'src/types/blog';
-
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -22,37 +23,59 @@ type Props = {
 };
 
 export function PostListHomeView({ posts }: Props) {
-  // Divisão inicial dos dados para as seções
-  const featuredPosts = posts.slice(0, 5); // Os 5 primeiros para o Hero
-  const recentPosts = posts.slice(5);      // O restante para a grade principal
+  
+  // 1. Lógica de Curadoria de Dados
+  // Destaques: Posts marcados como 'featured' ou os 5 primeiros
+  const featuredPosts = posts.filter((post) => post.featured).slice(0, 5).length > 0 
+    ? posts.filter((post) => post.featured).slice(0, 5) 
+    : posts.slice(0, 5);
+
+  // Trending: Ordenados por visualizações para a seção "Em Alta"
+  const trendingPosts = [...posts]
+    .sort((a, b) => b.totalViews - a.totalViews)
+    .slice(0, 4);
+
+  // Recentes: Excluímos os destaques do Hero para não repetir conteúdo
+  const recentPosts = posts.filter(post => !featuredPosts.includes(post));
 
   return (
-    <Stack sx={{ pb: 10 }}>
-      {/* 1. Hero - Carousel de Destaque */}
+    <Stack spacing={0} sx={{ pb: 10 }}>
+      
+      {/* 1. Hero - Carousel de Destaque (Impacto Visual Imediato) */}
       <PostFeatured posts={featuredPosts} />
 
-      {/* 2. Criadores - Autores do Portal */}
+      {/* 2. Criadores - Autores e Especialistas (Autoridade) */}
       <PostAuthors />
 
-      {/* 3. Comunidades - Fontes Monitoradas */}
-      <PostCommunity />
+      <Container sx={{ mt: { xs: 8, md: 10 } }}>
+        <Stack spacing={8}>
+          
+          {/* 6. Recentes - Grelha Cronológica (O Coração do Blog) */}
+          <Stack spacing={3}>
+            <Typography variant="h4">Últimas Atualizações</Typography>
+            <PostRecent posts={recentPosts} />
+          </Stack>
 
-      {/* 4. Vídeos - Galeria Youtube */}
+          {/* 3. Comunidades - Fontes Monitoradas (Ecossistema) */}
+          <PostCommunity title="Fontes Monitoradas" />
+
+        </Stack>
+      </Container>
+
+      {/* 4. Vídeos - Galeria Youtube (Engajamento Multimedia) */}
       <PostVideo />
 
-      {/* 5. PUB - Banner Publicitário */}
+      {/* 5. PUB - Banner Publicitário (Monetização/Aviso) */}
       <PostBanner />
 
       <Container sx={{ mt: { xs: 8, md: 10 } }}>
-        {/* 6. Recentes - Grelha Cronológica */}
-        <PostRecent posts={recentPosts} />
-
-        {/* 7. Alta - Mais Engajados */}
-        <PostTrending posts={featuredPosts} />
+        {/* 7. Alta - Mais Engajados (Filtro por Performance) */}
+        <PostTrending posts={trendingPosts} title="Destaques da Semana" />
       </Container>
 
-      {/* 8. Newsletter - Conversão */}
+      {/* 8. Newsletter - Conversão (Retenção de Usuário) */}
       <PostNewsletter />
+      
     </Stack>
   );
 }

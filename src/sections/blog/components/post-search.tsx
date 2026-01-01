@@ -22,14 +22,14 @@ import { SearchNotFound } from 'src/components/search-not-found';
 type Props = {
   query: string;
   results: IPostItem[];
-  onSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearch: (value: string) => void;
   redirectPath: (title: string) => string;
   sx?: SxProps<Theme>;
 };
 
 export function PostSearch({ query, results, onSearch, redirectPath, sx }: Props) {
   const handleSearch = (event: React.SyntheticEvent, newValue: string) => {
-    onSearch({ target: { value: newValue } } as React.ChangeEvent<HTMLInputElement>);
+    onSearch(newValue);
   };
 
   const renderOption = (props: React.HTMLAttributes<HTMLLIElement>, option: IPostItem) => {

@@ -3,7 +3,7 @@
 import type { IPostItem, IPostFilters } from 'src/types/blog';
 
 import { orderBy } from 'es-toolkit';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useSetState } from 'minimal-shared/hooks';
 
 import Box from '@mui/material/Box';
@@ -30,23 +30,67 @@ import { PostListHorizontal } from '../item/list-horizontal';
 
 const PUBLISH_OPTIONS = ['all', 'published', 'draft'] as const;
 
+type PublishType = (typeof PUBLISH_OPTIONS)[number];
+
+type SortType = 'latest' | 'oldest' | 'popular';
+
 // ----------------------------------------------------------------------
 
 export function PostListView() {
   const { posts, postsLoading } = useGetPosts();
 
-  const [sortBy, setSortBy] = useState('latest');
+  // 🔹 Ordenação tipada
+  const [sortBy, setSortBy] = useState<SortType>('latest');
 
-  const { state, setState } = useSetState<IPostFilters>({ publish: 'all' });
+  // 🔹 Busca controlada (necessária para o PostSearch)
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const dataFiltered = applyFilter({ inputData: posts, filters: state, sortBy });
+  // 🔹 Filtros
+  const { state, setState } = useSetState<IPostFilters>({
+    publish: 'all',
+  });
 
+  // ----------------------------------------------------------------------
+  // 🔹 Contadores memorizados (evita múltiplos filter no render)
+  const publishCounts = useMemo(() => {
+    return {
+      all: posts.length,
+      published: posts.filter((post) => post.publish === 'published').length,
+      draft: posts.filter((post) => post.publish === 'draft').length,
+    };
+  }, [posts]);
+
+  // ----------------------------------------------------------------------
+  // 🔹 Resultados da busca
+  const searchResults = useMemo(() => {
+    if (!searchQuery) {
+      return posts;
+    }
+
+    return posts.filter((post) =>
+      post.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [posts, searchQuery]);
+
+  // ----------------------------------------------------------------------
+  // 🔹 Dados finais filtrados e ordenados
+  const dataFiltered = useMemo(() => {
+    return applyFilter({
+      inputData: searchResults,
+      filters: state,
+      sortBy,
+    });
+  }, [searchResults, state, sortBy]);
+
+  // ----------------------------------------------------------------------
   const handleFilterPublish = useCallback(
-    (event: React.SyntheticEvent, newValue: string) => {
+    (_event: React.SyntheticEvent, newValue: PublishType) => {
       setState({ publish: newValue });
     },
     [setState]
   );
+
+  // ----------------------------------------------------------------------
 
   return (
     <BlogLayout>
@@ -70,6 +114,7 @@ export function PostListView() {
         sx={{ mb: { xs: 3, md: 5 } }}
       />
 
+      {/* Toolbar */}
       <Box
         sx={{
           gap: 3,
@@ -80,30 +125,40 @@ export function PostListView() {
           alignItems: { xs: 'flex-end', sm: 'center' },
         }}
       >
-        <PostSearch redirectPath={(title: string) => paths.dashboard.post.details(title)} />
+        <PostSearch
+          query={searchQuery}
+          results={searchResults}
+          onSearch={setSearchQuery}
+          redirectPath={(title: string) => paths.dashboard.post.details(title)}
+        />
 
         <PostSort
           sort={sortBy}
-          onSort={(newValue: string) => setSortBy(newValue)}
+          onSort={setSortBy}
           sortOptions={POST_SORT_OPTIONS}
         />
       </Box>
 
-      <Tabs value={state.publish} onChange={handleFilterPublish} sx={{ mb: { xs: 3, md: 5 } }}>
+      {/* Tabs */}
+      <Tabs
+        value={state.publish}
+        onChange={handleFilterPublish}
+        sx={{ mb: { xs: 3, md: 5 } }}
+      >
         {PUBLISH_OPTIONS.map((tab) => (
           <Tab
             key={tab}
-            iconPosition="end"
             value={tab}
+            iconPosition="end"
             label={tab}
             icon={
               <Label
-                variant={((tab === 'all' || tab === state.publish) && 'filled') || 'soft'}
-                color={(tab === 'published' && 'info') || 'default'}
+                variant={
+                  tab === 'all' || tab === state.publish ? 'filled' : 'soft'
+                }
+                color={tab === 'published' ? 'info' : 'default'}
               >
-                {tab === 'all' && posts.length}
-                {tab === 'published' && posts.filter((post) => post.publish === 'published').length}
-                {tab === 'draft' && posts.filter((post) => post.publish === 'draft').length}
+                {publishCounts[tab]}
               </Label>
             }
             sx={{ textTransform: 'capitalize' }}
@@ -111,6 +166,7 @@ export function PostListView() {
         ))}
       </Tabs>
 
+      {/* Lista */}
       <PostListHorizontal posts={dataFiltered} loading={postsLoading} />
     </BlogLayout>
   );
@@ -121,27 +177,34 @@ export function PostListView() {
 type ApplyFilterProps = {
   inputData: IPostItem[];
   filters: IPostFilters;
-  sortBy: string;
+  sortBy: SortType;
 };
 
 function applyFilter({ inputData, filters, sortBy }: ApplyFilterProps) {
+  let data = [...inputData];
+
   const { publish } = filters;
 
-  if (sortBy === 'latest') {
-    inputData = orderBy(inputData, ['createdAt'], ['desc']);
-  }
+  switch (sortBy) {
+    case 'latest':
+      data = orderBy(data, ['createdAt'], ['desc']);
+      break;
 
-  if (sortBy === 'oldest') {
-    inputData = orderBy(inputData, ['createdAt'], ['asc']);
-  }
+    case 'oldest':
+      data = orderBy(data, ['createdAt'], ['asc']);
+      break;
 
-  if (sortBy === 'popular') {
-    inputData = orderBy(inputData, ['totalViews'], ['desc']);
+    case 'popular':
+      data = orderBy(data, ['totalViews'], ['desc']);
+      break;
+
+    default:
+      break;
   }
 
   if (publish !== 'all') {
-    inputData = inputData.filter((post) => post.publish === publish);
+    data = data.filter((post) => post.publish === publish);
   }
 
-  return inputData;
+  return data;
 }

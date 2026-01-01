@@ -43,6 +43,7 @@ export type IPostItem = {
   publish: string;
   content: string;
   coverUrl: string;
+  category: string; // 👈 ESSENCIAL: Para os badges (Análise, DEX, Preço, etc)
   metaTitle: string;
   totalViews: number;
   totalShares: number;

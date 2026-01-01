@@ -1,3 +1,5 @@
+'use client';
+
 import type { SWRConfiguration } from 'swr';
 import type { IPostItem } from 'src/types/blog';
 
@@ -23,9 +25,31 @@ type PostsData = {
 export function useGetPosts() {
   const url = endpoints.post.list;
 
-  const { data, isLoading, error, isValidating } = useSWR<PostsData>(url, fetcher, {
-    ...swrOptions,
-  });
+  const { data, isLoading, error, isValidating } = useSWR<PostsData>(url, fetcher, swrOptions);
+
+  const memoizedValue = useMemo(
+    () => ({
+      posts: data?.posts || [],
+      postsLoading: isLoading,
+      postsError: error,
+      postsValidating: isValidating,
+      postsEmpty: !isLoading && !data?.posts.length,
+    }),
+    [data?.posts, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
+/**
+ * NOVO: Busca posts por categoria específica (Ex: DEX, Análise)
+ */
+export function useGetPostsByCategory(category: string) {
+  const url = category ? [endpoints.post.list, { params: { category } }] : '';
+
+  const { data, isLoading, error, isValidating } = useSWR<PostsData>(url, fetcher, swrOptions);
 
   const memoizedValue = useMemo(
     () => ({
@@ -50,9 +74,7 @@ type PostData = {
 export function useGetPost(title: string) {
   const url = title ? [endpoints.post.details, { params: { title } }] : '';
 
-  const { data, isLoading, error, isValidating } = useSWR<PostData>(url, fetcher, {
-    ...swrOptions,
-  });
+  const { data, isLoading, error, isValidating } = useSWR<PostData>(url, fetcher, swrOptions);
 
   const memoizedValue = useMemo(
     () => ({
@@ -76,9 +98,7 @@ type LatestPostsData = {
 export function useGetLatestPosts(title: string) {
   const url = title ? [endpoints.post.latest, { params: { title } }] : '';
 
-  const { data, isLoading, error, isValidating } = useSWR<LatestPostsData>(url, fetcher, {
-    ...swrOptions,
-  });
+  const { data, isLoading, error, isValidating } = useSWR<LatestPostsData>(url, fetcher, swrOptions);
 
   const memoizedValue = useMemo(
     () => ({
