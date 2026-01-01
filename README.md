@@ -177,26 +177,50 @@ src
 │
 ├── 📁 sections/                # ✅ Confirmado: Seções da UI por feature
 │   └── 📁 blog/
-│       ├── 📁 components/       # Componentes complexos e reutilizáveis do blog
+│       ├── 📁 components/       # Componentes de UI genéricos do blog (widgets, etc)
+│       │   ├── 📄 authors.tsx
+│       │   ├── 📄 banner.tsx
+│       │   ├── 📄 community.tsx
+│       │   ├── 📄 featured.tsx
 │       │   ├── 📄 index.ts
-│       │   ├── 📄 post-carousel-featured.tsx
 │       │   ├── 📄 post-search.tsx
-│       │   └── 📄 post-sort.tsx
-│       ├── 📁 forms/
+│       │   ├── 📄 post-sort.tsx
+│       │   └── 📄 video.tsx
+│       │
+│       ├── 📁 details/          # Componentes para a página de detalhes de um post
+│       │   ├── 📄 post-comment-item.tsx
+│       │   ├── 📄 post-comment-list.tsx
+│       │   ├── 📄 post-details-hero.tsx
+│       │   └── 📄 post-details-toolbar.tsx
+│       │
+│       ├── 📁 forms/            # Formulários específicos do blog
+│       │   ├── 📄 newsletter.tsx
 │       │   └── 📄 post-comment-form.tsx
-│       ├── 📁 item/             # Componentes atômicos para itens de post
+│       │
+│       ├── 📁 item/             # Componentes de item de post e suas variações
 │       │   ├── 📄 index.ts
-│       │   ├── 📄 post-details-skeleton.tsx
-│       │   ├── 📄 post-item.tsx
-│       │   └── 📄 post-list.tsx
-│       └── 📁 view/             # Views principais que montam as seções
-│           ├── 📄 index.ts
-│           ├── 📄 post-create-view.tsx
-│           ├── 📄 post-details-home-view.tsx
-│           ├── 📄 post-details-view.tsx
-│           ├── 📄 post-edit-view.tsx
-│           ├── 📄 post-list-home-view.tsx
-│           └── 📄 post-list-view.tsx
+│       │   ├── 📄 item-horizontal.tsx
+│       │   ├── 📄 item.tsx
+│       │   ├── 📄 list-horizontal.tsx
+│       │   ├── 📄 list.tsx
+│       │   ├── 📄 recent.tsx
+│       │   ├── 📄 skeleton.tsx
+│       │   └── 📄 trending.tsx
+│       │
+│       ├── 📁 management/       # Views e formulários para o painel de admin (CRUD)
+│       │   ├── 📄 post-create-edit-form.tsx
+│       │   ├── 📄 post-create-view.tsx
+│       │   ├── 📄 post-details-preview.tsx
+│       │   └── 📄 post-edit-view.tsx
+│       │
+│       ├── 📁 view/             # Views principais que montam as páginas do blog
+│       │   ├── 📄 index.ts
+│       │   ├── 📄 post-details-home-view.tsx
+│       │   ├── 📄 post-details-view.tsx
+│       │   ├── 📄 post-list-home-view.tsx
+│       │   └── 📄 post-list-view.tsx
+│       │
+│       └── 📄 constants.ts      # Constantes do módulo de blog
 │
 └── 📁 types/                   # ✅ Confirmado: Tipos e interfaces
     └── 📄 blog.ts              # Definições de tipos TypeScript para o blog
