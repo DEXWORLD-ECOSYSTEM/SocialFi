@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 
 import { IPostItem } from 'src/types/blog';
 
+// 1. RESTAUREI O IMPORT DO POSTFEATURED
 import { PostFeatured } from '../components/featured';
 import { PostAuthors } from '../components/authors';
 import { PostCommunity } from '../components/community';
@@ -27,55 +28,79 @@ type Props = {
   geopoliticaSection: ReactNode;
 };
 
-export function PostListHomeView({ posts, economiaSection, tecnologiaSection, meioAmbienteSection, geopoliticaSection }: Props) {
+export function PostListHomeView({ 
+  posts, 
+  economiaSection, 
+  tecnologiaSection, 
+  meioAmbienteSection, 
+  geopoliticaSection 
+}: Props) {
+
+  // 2. RESTAUREI A LÓGICA DO FEATURED (BANNER ESCURO)
   const featuredPosts = posts.filter((post) => post.featured).slice(0, 5).length > 0
     ? posts.filter((post) => post.featured).slice(0, 5)
     : posts.slice(0, 5);
 
+  // Lógica do Trending (Grid)
   const trendingPosts = [...posts]
     .sort((a, b) => b.totalViews - a.totalViews)
-    .slice(0, 4);
+    .slice(0, 7); 
 
-  const recentPosts = posts.filter((post) => !featuredPosts.includes(post));
+  // Lógica dos Recentes (Removemos o que já apareceu no featured e no trending)
+  const recentPosts = posts.filter((post) => 
+    !featuredPosts.includes(post) && !trendingPosts.find(t => t.id === post.id)
+  );
 
   return (
     <Stack spacing={0} sx={{ pb: 10 }}>
+
+      {/* 1. HERO PRINCIPAL: O Banner Escuro (PostFeatured) */}
+      {/* Esta é a seção que eu havia removido por engano. Ela está de volta ao topo. */}
       <PostFeatured posts={featuredPosts} />
 
-      <PostAuthors />
-
-      <Container sx={{ mt: { xs: 8, md: 10 } }}>
-        <Stack spacing={8}>
-          <Stack spacing={3}>
-            <Typography variant="h4">Últimas Atualizações</Typography>
-            <PostRecent posts={recentPosts} />
-          </Stack>
-
-          <PostCommunity title="Fontes Monitoradas" />
-        </Stack>
+      {/* 2. DESTAQUES SECUNDÁRIOS: O Grid Assimétrico (PostTrending) */}
+      <Container sx={{ mt: { xs: 4, md: 8 } }}>
+        <PostTrending posts={trendingPosts} />
       </Container>
 
-      {/* SEÇÃO DE ECONOMIA (renderizada via prop) */}
+      {/* 3. PROVA SOCIAL: Fontes Monitoradas */}
+      <Container sx={{ my: 10 }}>        
+        <PostCommunity />
+      </Container>
+
+      {/* 4. O "AGORA": Últimas Atualizações */}
+      <PostRecent posts={recentPosts} />
+
+      {/* 5. CONTEÚDO DENSO (Bloco A): Economia */}
       {economiaSection}
 
-      {/* SEÇÃO DE TECNOLOGIA (renderizada via prop) */}
-      {tecnologiaSection}
-
-      {/* SEÇÃO DE MEIO AMBIENTE (renderizada via prop) */}
-      {meioAmbienteSection}
-
-      {/* SEÇÃO DE GEOPOLÍTICA (renderizada via prop) */}
-      {geopoliticaSection}
-
-      <PostVideo />
-
-      <PostBanner />
-
-      <Container sx={{ mt: { xs: 8, md: 10 } }}>
-        <PostTrending posts={trendingPosts} title="Destaques da Semana" />
+      {/* 6. QUEBRA VISUAL: Vídeos */}
+      <Container sx={{ my: 10 }}>
+        <PostVideo />
       </Container>
 
+      {/* 7. CONTEÚDO DENSO (Bloco B): Tecnologia */}
+      {tecnologiaSection}
+
+      {/* 8. CONVERSÃO: Banner de Anúncio */}
+      <Container sx={{ my: 10 }}>
+        <PostBanner />
+      </Container>
+
+      {/* 9. CONTEÚDO DENSO (Bloco C): Geopolítica */}
+      {geopoliticaSection}
+
+      {/* 10. CONTEÚDO NICHO (Bloco D): Meio Ambiente */}
+      {meioAmbienteSection}
+
+      {/* 11. HUMANIZAÇÃO: Autores */}
+      <Container sx={{ my: 10 }}>        
+        <PostAuthors />
+      </Container>
+
+      {/* 12. RETENÇÃO FINAL: Newsletter */}
       <PostNewsletter />
+
     </Stack>
   );
 }
