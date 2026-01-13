@@ -1,16 +1,15 @@
 'use client';
 
 import type { LinkProps } from '@mui/material/Link';
-
 import { mergeClasses } from 'minimal-shared/utils';
 
-// Adicionado Box para renderizar a imagem corretamente
+// Importações visuais
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 
 import { RouterLink } from 'src/routes/components';
-
 import { logoClasses } from './classes';
 
 // ----------------------------------------------------------------------
@@ -25,33 +24,69 @@ export function Logo({
   disabled,
   className,
   href = '/',
-  isSingle = true,
+  // MUDANÇA 1: Alteramos o padrão para false.
+  // Agora ele tentará mostrar o logo completo (com texto) por padrão.
+  isSingle = false,
   ...other
 }: LogoProps) {
 
-  /*
-   * CORREÇÃO:
-   * Agora o código aponta para os arquivos REAIS que você indicou:
-   * - Single: android-chrome-192x192.png
-   * - Full: android-chrome-512x512.png
-   */
-
-  const singleLogo = (
+  // ÍCONE DO GLOBO (Base)
+  const logoIcon = (
     <Box
       component="img"
-      alt="Single logo"
-      src="/logo/android-chrome-192x192.png" 
-      sx={{ width: '100%', height: '100%', objectFit: 'contain' }}
+      alt="Dex World Icon"
+      src="/logo/android-chrome-192x192.png"
+      sx={{ 
+        width: 40, 
+        height: 40, 
+        objectFit: 'contain' 
+      }}
     />
   );
 
+  // VERSÃO 1: APENAS ÍCONE
+  const singleLogo = (
+    <Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {logoIcon}
+    </Box>
+  );
+
+  // VERSÃO 2: ÍCONE + TEXTO (Estilo Cointelegraph)
   const fullLogo = (
-    <Box
-      component="img"
-      alt="Full logo"
-      src="/logo/android-chrome-512x512.png"
-      sx={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'left' }}
-    />
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+      {/* Ícone */}
+      {logoIcon}
+
+      {/* Texto */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 800,
+            lineHeight: 1,
+            fontSize: '1.1rem',
+            textTransform: 'uppercase',
+            color: 'text.primary', // Preto no Light / Branco no Dark
+            letterSpacing: '-0.5px'
+          }}
+        >
+          DEX
+        </Typography>
+
+        <Typography
+          variant="caption"
+          sx={{
+            fontWeight: 500,
+            lineHeight: 1,
+            fontSize: '0.75rem',
+            color: 'text.secondary', // Cinza
+            mt: 0.3
+          }}
+        >
+          World
+        </Typography>
+      </Box>
+    </Box>
   );
 
   return (
@@ -63,16 +98,25 @@ export function Logo({
       className={mergeClasses([logoClasses.root, className])}
       sx={[
         {
+          // Dimensões base
           width: 40,
           height: 40,
-          // Ajusta o tamanho do container quando for o logo completo
-          ...(!isSingle && { width: 102, height: 40 }),
+          
+          // MUDANÇA 2: Se não for single, expande para caber o texto
+          ...(!isSingle && { 
+            width: 'auto', 
+            height: 40,
+            minWidth: 140 
+          }),
           ...(disabled && { pointerEvents: 'none' }),
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
+      {/* Lógica de Renderização:
+         Se isSingle for false (agora é o padrão), mostra fullLogo.
+      */}
       {isSingle ? singleLogo : fullLogo}
     </LogoRoot>
   );
@@ -80,9 +124,13 @@ export function Logo({
 
 // ----------------------------------------------------------------------
 
-const LogoRoot = styled(Link)(() => ({
+// MUDANÇA 3: Corrigido o CSS que escondia o texto.
+const LogoRoot = styled(Link)(({ theme }) => ({
   flexShrink: 0,
-  color: 'transparent',
   display: 'inline-flex',
   verticalAlign: 'middle',
+  alignItems: 'center',
+  textDecoration: 'none',
+  // Importante: permite que as cores definidas no Typography funcionem
+  color: 'inherit', 
 }));
