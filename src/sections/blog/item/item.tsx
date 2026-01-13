@@ -1,3 +1,5 @@
+'use client'; // <--- ESTA É A LINHA QUE FALTAVA PARA CORRIGIR O ERRO
+
 import type { BoxProps } from '@mui/material/Box';
 import type { CardProps } from '@mui/material/Card';
 import type { IPostItem } from 'src/types/blog';

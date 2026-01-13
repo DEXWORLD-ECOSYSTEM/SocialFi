@@ -21,9 +21,12 @@ type Props = {
   loading?: boolean;
 };
 
-// Renomeamos para PostTrending para alinhar com o nosso plano de 8 seções
 export function PostTrending({ posts, loading }: Props) {
   
+  // SOLUÇÃO: Se tiver menos de 7 posts, duplicamos eles para preencher o layout visualmente
+  // Quando você tiver dados reais suficientes no backend, pode remover essa linha.
+  const viewPosts = posts.length < 7 ? [...posts, ...posts] : posts;
+
   const renderLoading = () => (
     <Box
       sx={{
@@ -38,15 +41,15 @@ export function PostTrending({ posts, loading }: Props) {
 
   const renderList = () => (
     <Grid container spacing={3}>
-      {/* Título da Secção para dar contexto ao utilizador */}
+      {/* Título da Secção */}
       <Grid size={12}>
         <Typography variant="h4" sx={{ mb: 3 }}>Artigos em Alta</Typography>
       </Grid>
 
-      {/* Destaque da Alta: Os 3 primeiros posts com layout diferenciado */}
-      {posts.slice(0, 3).map((post, index) => (
+      {/* Destaque da Alta: Os 3 primeiros posts */}
+      {viewPosts.slice(0, 3).map((post, index) => (
         <Grid
-          key={post.id}
+          key={`${post.id}-${index}-lg`} // Adicionei index na key para evitar erro de duplicata no React
           sx={{ display: { xs: 'none', lg: 'block' } }}
           size={{
             xs: 12,
@@ -60,9 +63,9 @@ export function PostTrending({ posts, loading }: Props) {
       ))}
 
       {/* Versão Mobile/Tablet para os 3 primeiros */}
-      {posts.slice(0, 3).map((post) => (
+      {viewPosts.slice(0, 3).map((post, index) => (
         <Grid
-          key={post.id}
+          key={`${post.id}-${index}-mb`}
           sx={{ display: { lg: 'none' } }}
           size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
         >
@@ -70,10 +73,11 @@ export function PostTrending({ posts, loading }: Props) {
         </Grid>
       ))}
 
-      {/* Restante da lista "Trending" */}
-      {posts.slice(3, 8).map((post) => ( // Limitamos a 8 itens para não sobrecarregar a secção de tendência
+      {/* Restante da lista: Exatamente 4 cards agora */}
+      {/* Pegamos do índice 3 ao 7 do array expandido */}
+      {viewPosts.slice(3, 7).map((post, index) => (
         <Grid
-          key={post.id}
+          key={`${post.id}-${index}-rest`}
           size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
         >
           <PostItem post={post} detailsHref={paths.post.details(post.title)} />
@@ -83,10 +87,10 @@ export function PostTrending({ posts, loading }: Props) {
   );
 
   return (
-    <Box sx={{ mt: 8 }}> {/* Espaçamento superior para separar da Secção 6 */}
+    <Box sx={{ mt: 8 }}>
       {loading ? renderLoading() : renderList()}
 
-      {posts.length > 8 && (
+      {viewPosts.length > 7 && (
         <Stack sx={{ mt: 8, alignItems: 'center' }}>
           <Button
             size="large"

@@ -13,49 +13,71 @@ export const POST_SORT_OPTIONS = [
   { value: 'oldest', label: 'Antigos' },
 ];
 
-// Títulos focados em Monitoramento Cripto para 2026
-const POST_TITLES = [
-  'Bitcoin rompe barreira histórica: O que esperar para o próximo trimestre?',
-  'Top 5 DEXs para maximizar seus rendimentos em 2026',
-  'Análise: Por que a Layer 2 da Ethereum está dominando o mercado?',
-  'Guia completo: Como proteger seus ativos em carteiras frias',
-  'Solana vs. Aptos: A batalha pela escalabilidade em tempo real',
-  'O impacto das novas regulamentações de stablecoins na Europa',
-  'Airdrops confirmados: Como se qualificar para os maiores protocolos',
-  'Web3 Social: O fim das redes centralizadas como conhecemos?',
-  'Entenda o algoritmo de consenso da nova rede modular Celestia',
-  'Smart Money: Para onde as baleias estão movendo seus fundos hoje?',
-  'Tutorial: Criando seu primeiro bot de trading na rede Arbitrum',
-  'O futuro dos NFTs: Além das fotos de perfil, utilidade real',
-  'Inflação e Cripto: O BTC ainda é o porto seguro digital?',
-  'DeFi 2.0: O que mudou na gestão de liquidez institucional',
-  'Privacidade em risco? A evolução dos mixers de transações',
-  'Jogos Play-to-Earn que realmente são sustentáveis em 2026',
-  'Como ler o gráfico de ordens (Order Flow) como um profissional',
-  'Metaverso Industrial: Como grandes empresas usam blockchain hoje',
-  'Relatório Mensal: As Altcoins com maior potencial de crescimento',
-  'Entrevista exclusiva com o fundador da maior corretora do Brasil',
+// As categorias exatas que você tem no Menu + Extras
+// A ordem aqui importa para a distribuição dos posts abaixo
+const POST_CATEGORIES = [
+  'Economia', 
+  'Tecnologia', 
+  'Meio Ambiente', 
+  'Geopolítica',
+  'Economia', // Repetimos para dar peso maior
+  'Tecnologia'
 ];
 
-const POST_CATEGORIES = [
-  'Análise', 'Notícias', 'Preço', 'DEX', 'Altcoins', 
-  'Web3', 'Blockchain', 'Vídeo', 'Tutorial', 'Eventos'
+// Títulos expandidos para garantir volume de dados (24 títulos)
+const POST_TITLES = [
+  // ECONOMIA / GERAL
+  'Bitcoin rompe barreira histórica: O que esperar para o próximo trimestre?',
+  'Inflação Global e Bitcoin: A reserva de valor definitiva?',
+  'O impacto das taxas de juros do FED no mercado cripto',
+  'Tokenização de Ativos Reais (RWA): O futuro da economia global',
+  'Dólar Digital vs. Euro Digital: A corrida das CBDCs',
+  'Análise Macro: Como a recessão técnica afeta o DeFi',
+  
+  // TECNOLOGIA
+  'Análise: Por que a Layer 2 da Ethereum está dominando o mercado?',
+  'Solana vs. Aptos: A batalha pela escalabilidade em tempo real',
+  'Entenda o algoritmo de consenso da nova rede modular Celestia',
+  'Tutorial: Criando seu primeiro bot de trading na rede Arbitrum',
+  'Inteligência Artificial e Blockchain: A convergência de 2026',
+  'Segurança em Smart Contracts: Novas ferramentas de auditoria',
+
+  // MEIO AMBIENTE
+  'Mineração Sustentável: O uso de energia vulcânica em El Salvador',
+  'Créditos de Carbono na Blockchain: Transparência real?',
+  'O impacto ambiental dos NFTs: Mitos e verdades em 2026',
+  'Protocolos Verdes: Redes Proof-of-Stake com pegada negativa',
+  'Agrofloresta e Web3: Financiando o campo com tokens',
+  'ESG e Criptoativos: Como grandes fundos estão se posicionando',
+
+  // GEOPOLÍTICA
+  'O impacto das novas regulamentações de stablecoins na Europa (MiCA)',
+  'China e o retorno silencioso ao mercado de criptoativos',
+  'Adoção em massa na América Latina: O caso do Brasil e Argentina',
+  'Sanções Econômicas e o uso de Cripto na Rússia e Irã',
+  'Eleições nos EUA: O que cada candidato propõe para o Bitcoin',
+  'O papel das criptomoedas em zonas de conflito geopolítico',
 ];
 
 // ----------------------------------------------------------------------
 
 export const _posts = POST_TITLES.map((title, index) => {
-  // Define uma categoria de forma cíclica ou baseada no índice
-  const category = POST_CATEGORIES[index % POST_CATEGORIES.length];
+  // Distribui as categorias ciclicamente baseada no índice
+  // Ex: 0=Economia, 1=Tecnologia, 2=Meio Ambiente, 3=Geopolítica, etc.
+  const categoryIndex = index % 4; 
+  // Forçamos as categorias principais para garantir que os filtros funcionem
+  const categoriesMap = ['Economia', 'Tecnologia', 'Meio Ambiente', 'Geopolítica'];
+  const category = categoriesMap[categoryIndex];
 
   return {
     id: _mock.id(index),
     title,
-    category, // 👈 Campo essencial para o seu novo design
+    category, // Categoria garantida
     description: _mock.description(index),
     content: _mock.content(index),
     coverUrl: _mock.image.cover(index),
-    publish: index % 3 === 0 ? 'draft' : 'published',
+    // Forçamos quase tudo como 'published' para não sumir da tela
+    publish: index % 10 === 0 ? 'draft' : 'published', 
     createdAt: _mock.time(index),
     totalViews: _mock.number.nativeL(index),
     totalShares: _mock.number.nativeL(index + 1),
