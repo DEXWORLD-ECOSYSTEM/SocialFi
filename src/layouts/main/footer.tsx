@@ -17,6 +17,7 @@ import Typography from '@mui/material/Typography';
 import { styled, keyframes } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 
+import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 import { Logo } from 'src/components/logo'; // Seu logo novo DEX World
 import { Iconify } from 'src/components/iconify';
@@ -229,12 +230,13 @@ export function Footer({
                   Precisa de suporte?
                 </Typography>
                 <Link
-                  href="mailto:support@dexworld.com"
+                  component={RouterLink}
+                  href={paths.faqs}
                   variant="body1"
                   underline="none"
                   sx={{ color: 'grey.300', '&:hover': { color: 'common.white' } }}
                 >
-                  support@dexworld.com
+                  Acesse a Central de Ajuda
                 </Link>
               </Box>
             </Box>
