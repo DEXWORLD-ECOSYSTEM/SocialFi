@@ -1,0 +1,1 @@
+export default function CheckoutView() { return <div>Checkout View</div>; }
