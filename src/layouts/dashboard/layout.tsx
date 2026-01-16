@@ -18,6 +18,7 @@ import { _contacts, _notifications } from 'src/_mock';
 import { Logo } from 'src/components/logo';
 import { useSettingsContext } from 'src/components/settings';
 import { SettingsDrawer } from 'src/components/settings/drawer';
+import { defaultSettings } from 'src/components/settings/settings-config';
 
 import { useMockedUser } from 'src/auth/hooks';
 
@@ -148,22 +149,22 @@ export function DashboardLayout({
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0, sm: 0.75 } }}>
           {/** @slot Settings drawer */}
-          <SettingsDrawer />
+          <SettingsDrawer defaultSettings={defaultSettings} />
 
           {/** @slot Searchbar */}
-          <Searchbar data={navData} />
+          <Searchbar />
 
           {/** @slot Language popover */}
-          <LanguagePopover data={allLangs} />
+          <LanguagePopover />
 
           {/** @slot Notifications popover */}
-          <NotificationsDrawer data={_notifications} />
+          <NotificationsDrawer />
 
           {/** @slot Contacts popover */}
-          <ContactsPopover data={_contacts} />
+          <ContactsPopover />
 
           {/** @slot Account drawer */}
-          <AccountDrawer data={_account} />
+          <AccountDrawer />
         </Box>
       ),
     };

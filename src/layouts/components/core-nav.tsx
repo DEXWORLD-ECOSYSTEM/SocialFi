@@ -24,22 +24,22 @@ export function CoreNav() {
   const ACTIONS = [
     {
       name: 'Profile',
-      icon: 'solar:user-bold-duotone',
+      icon: 'solar:user-id-bold',
       onClick: () => router.push(paths.auth.signIn),
     },
-    { name: 'GitHub', icon: 'ant-design:github-filled', onClick: () => console.info('GitHub') },
+    { name: 'GitHub', icon: 'mdi:github', onClick: () => console.info('GitHub') },
     {
       name: 'Support',
-      icon: 'solar:headset-help-bold-duotone',
+      icon: 'solar:headset-bold',
       onClick: () => console.info('Support'),
     },
-    { name: 'Docs', icon: 'solar:document-text-bold-duotone', onClick: () => console.info('Docs') },
+    { name: 'Docs', icon: 'solar:document-bold', onClick: () => console.info('Docs') },
     {
       name: 'ThemeMode',
-      icon: settings.state.mode === 'light' ? 'solar:moon-bold-duotone' : 'solar:sun-bold-duotone',
+      icon: settings.state.mode === 'light' ? 'solar:moon-bold' : 'solar:sun-bold',
       onClick: () => settings.setField('mode', settings.state.mode === 'light' ? 'dark' : 'light'),
     },
-  ];
+  ] as const;
 
   return (
     <Box
@@ -53,8 +53,8 @@ export function CoreNav() {
     >
       <SpeedDial
         ariaLabel="Core Nav"
-        icon={<Iconify icon="solar:menu-dots-bold-duotone" />}
-        openIcon={<Iconify icon="solar:close-circle-bold-duotone" />}
+        icon={<Iconify icon={"solar:menu-dots-linear" as any} />}
+        openIcon={<Iconify icon="solar:close-circle-bold" />}
         direction="up"
         onClose={open.onFalse}
         onOpen={open.onTrue}
@@ -63,7 +63,7 @@ export function CoreNav() {
         {ACTIONS.map((action) => (
           <SpeedDialAction
             key={action.name}
-            icon={<Iconify icon={action.icon} />}
+            icon={<Iconify icon={action.icon as any} />}
             tooltipTitle={action.name}
             onClick={action.onClick}
           />
