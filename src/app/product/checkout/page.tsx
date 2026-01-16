@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import { CONFIG } from 'src/global-config';
 
-import { CheckoutView } from 'src/sections/checkout/view';
+import CheckoutView from 'src/sections/checkout/view';
 
 // ----------------------------------------------------------------------
 

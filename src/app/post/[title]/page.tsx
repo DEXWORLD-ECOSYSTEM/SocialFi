@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { IPostItem } from 'src/types/blog';
 
 import { kebabCase } from 'es-toolkit';
+import { notFound } from 'next/navigation';
 
 import { CONFIG } from 'src/global-config';
 import { getPost, getLatestPosts, getPosts } from 'src/actions/blog-ssr';
@@ -20,6 +21,11 @@ export default async function Page({ params }: Props) {
   const { title } = params;
 
   const post = await getPost(title);
+
+  if (!post.post) {
+    notFound();
+  }
+
   await getLatestPosts(title);
 
   return <PostDetailsView post={post.post} />;

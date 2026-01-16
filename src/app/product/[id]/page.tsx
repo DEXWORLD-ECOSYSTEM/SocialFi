@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
-import type { IProductItem } from 'src/types/product';
 
 import { CONFIG } from 'src/global-config';
 import axios, { endpoints } from 'src/lib/axios';
 import { getProduct } from 'src/actions/product-ssr';
 
-import { ProductShopDetailsView } from 'src/sections/product/view';
+import ProductShopDetailsView from 'src/sections/product/view';
 
 // ----------------------------------------------------------------------
 
@@ -18,9 +17,9 @@ type Props = {
 export default async function Page({ params }: Props) {
   const { id } = await params;
 
-  const { product } = await getProduct(id);
+  // const { product } = await getProduct(id);
 
-  return <ProductShopDetailsView product={product} />;
+  return <ProductShopDetailsView />;
 }
 
 // ----------------------------------------------------------------------
@@ -38,11 +37,11 @@ export default async function Page({ params }: Props) {
  */
 export async function generateStaticParams() {
   const res = await axios.get(endpoints.product.list);
-  const data: IProductItem[] = CONFIG.isStaticExport
+  const data = CONFIG.isStaticExport
     ? res.data.products
     : res.data.products.slice(0, 1);
 
-  return data.map((product) => ({
+  return data.map((product: any) => ({
     id: product.id,
   }));
 }
