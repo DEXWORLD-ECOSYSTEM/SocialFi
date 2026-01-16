@@ -17,7 +17,7 @@ export function navData(t: TFunction<any, any>) {
       items: [
         {
           title: t('app'),
-          path: paths.dashboard.permission,
+          path: paths.dashboard.root,
           icon: <SvgColor src={`${CONFIG.assetsDir}/assets/icons/navbar/ic-invoice.svg`} />,
         },
         {
@@ -52,7 +52,7 @@ export function navData(t: TFunction<any, any>) {
         },
         {
           title: t('invoice'),
-          path: paths.dashboard.blank,
+          path: paths.dashboard.general.app,
           icon: <SvgColor src={`${CONFIG.assetsDir}/assets/icons/navbar/ic-invoice.svg`} />,
         },
       ],

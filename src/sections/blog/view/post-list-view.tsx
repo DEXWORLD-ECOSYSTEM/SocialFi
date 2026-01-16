@@ -128,11 +128,7 @@ export function PostListView() {
           redirectPath={(title: string) => paths.dashboard.post.details(title)}
         />
 
-        <PostSort
-          sort={sortBy}
-          onSort={setSortBy}
-          sortOptions={POST_SORT_OPTIONS}
-        />
+        <PostSort sort={sortBy} onSort={setSortBy} sortOptions={POST_SORT_OPTIONS} />
       </Box>
 
       {/* Tabs */}

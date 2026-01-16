@@ -1,3 +1,5 @@
+'use client';
+
 import type { FieldsSchemaType } from './schema';
 
 import { useForm } from 'react-hook-form';
@@ -39,7 +41,7 @@ const defaultValues: FieldsSchemaType = {
   email: '',
   fullName: '',
   // number with 0, null, undefined
-  age: null,
+  age: 0,
   price: undefined,
   quantity: 0,
   // phone and code
@@ -58,7 +60,7 @@ const defaultValues: FieldsSchemaType = {
   singleSelect: '',
   multiSelect: [],
   // autocomplete
-  singleAutocomplete: null,
+  singleAutocomplete: OPTIONS[0],
   multiAutocomplete: [OPTIONS[0]],
 };
 

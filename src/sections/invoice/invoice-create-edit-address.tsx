@@ -113,7 +113,11 @@ export function InvoiceCreateEditAddress() {
         open={addressTo.value}
         onClose={addressTo.onFalse}
         selected={(selectedId: string) => invoiceTo?.id === selectedId}
-        onSelect={(address) => setValue('invoiceTo', address)}
+        onSelect={(address) => {
+          if (address) {
+            setValue('invoiceTo', address);
+          }
+        }}
         list={_addressBooks}
         action={
           <Button

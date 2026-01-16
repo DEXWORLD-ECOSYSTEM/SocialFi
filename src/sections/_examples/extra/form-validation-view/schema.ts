@@ -23,7 +23,8 @@ export const FieldsSchema = z
         .int()
         .min(1, { error: 'Age is required!' })
         .min(18, { error: 'Age must be between 18 and 80' })
-        .max(80, { error: 'Age must be between 18 and 80' }),
+        .max(80, { error: 'Age must be between 18 and 80' })
+        .nullable(),
       { error: 'Age is required!' }
     ),
     price: schemaUtils.nullableInput(

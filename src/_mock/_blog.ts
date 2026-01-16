@@ -13,17 +13,6 @@ export const POST_SORT_OPTIONS = [
   { value: 'oldest', label: 'Antigos' },
 ];
 
-// As categorias exatas que você tem no Menu + Extras
-// A ordem aqui importa para a distribuição dos posts abaixo
-const POST_CATEGORIES = [
-  'Economia', 
-  'Tecnologia', 
-  'Meio Ambiente', 
-  'Geopolítica',
-  'Economia', // Repetimos para dar peso maior
-  'Tecnologia'
-];
-
 // Títulos expandidos para garantir volume de dados (24 títulos)
 const POST_TITLES = [
   // ECONOMIA / GERAL

@@ -16,13 +16,7 @@ export function PostList({ posts }: Props) {
   return (
     <Grid container spacing={3}>
       {posts.map((post) => (
-        <Grid
-          item
-          key={post.id}
-          xs={12}
-          sm={6}
-          md={4}
-        >
+        <Grid key={post.id} xs={12} sm={6} md={4}>
           <PostItem post={post} detailsHref={`/post/${post.title}`} />
         </Grid>
       ))}

@@ -2,6 +2,8 @@ import type { IDateValue, IAddressItem, IDatePickerControl } from './common';
 
 // ----------------------------------------------------------------------
 
+export type { IAddressItem };
+
 export type IInvoiceTableFilters = {
   name: string;
   status: string;

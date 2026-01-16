@@ -22,18 +22,18 @@ import { useMockedUser } from 'src/auth/hooks';
 export type UpdateUserSchemaType = z.infer<typeof UpdateUserSchema>;
 
 export const UpdateUserSchema = z.object({
-  displayName: z.string().min(1, { error: 'Name is required!' }),
+  displayName: z.string().min(1, { message: 'Name is required!' }),
   email: schemaUtils.email(),
   photoURL: schemaUtils.file({ error: 'Avatar is required!' }),
   phoneNumber: schemaUtils.phoneNumber({ isValid: isValidPhoneNumber }),
-  country: schemaUtils.nullableInput(z.string().min(1, { error: 'Country is required!' }), {
+  country: schemaUtils.nullableInput(z.string().min(1, { message: 'Country is required!' }), {
     error: 'Country is required!',
   }),
-  address: z.string().min(1, { error: 'Address is required!' }),
-  state: z.string().min(1, { error: 'State is required!' }),
-  city: z.string().min(1, { error: 'City is required!' }),
-  zipCode: z.string().min(1, { error: 'Zip code is required!' }),
-  about: z.string().min(1, { error: 'About is required!' }),
+  address: z.string().min(1, { message: 'Address is required!' }),
+  state: z.string().min(1, { message: 'State is required!' }),
+  city: z.string().min(1, { message: 'City is required!' }),
+  zipCode: z.string().min(1, { message: 'Zip code is required!' }),
+  about: z.string().min(1, { message: 'About is required!' }),
   // Not required
   isPublic: z.boolean(),
 });
@@ -44,25 +44,25 @@ export function AccountGeneral() {
   const { user } = useMockedUser();
 
   const currentUser: UpdateUserSchemaType = {
-    displayName: user?.displayName,
-    email: user?.email,
-    photoURL: user?.photoURL,
-    phoneNumber: user?.phoneNumber,
-    country: user?.country,
-    address: user?.address,
-    state: user?.state,
-    city: user?.city,
-    zipCode: user?.zipCode,
-    about: user?.about,
-    isPublic: user?.isPublic,
+    displayName: user?.displayName ?? '',
+    email: user?.email ?? '',
+    photoURL: user?.photoURL ?? '',
+    phoneNumber: user?.phoneNumber ?? '',
+    country: user?.country ?? '',
+    address: user?.address ?? '',
+    state: user?.state ?? '',
+    city: user?.city ?? '',
+    zipCode: user?.zipCode ?? '',
+    about: user?.about ?? '',
+    isPublic: user?.isPublic ?? false,
   };
 
   const defaultValues: UpdateUserSchemaType = {
     displayName: '',
     email: '',
-    photoURL: null,
+    photoURL: '',
     phoneNumber: '',
-    country: null,
+    country: '',
     address: '',
     state: '',
     city: '',
@@ -96,7 +96,7 @@ export function AccountGeneral() {
   return (
     <Form methods={methods} onSubmit={onSubmit}>
       <Grid container spacing={3}>
-        <Grid size={{ xs: 12, md: 4 }}>
+        <Grid xs={12} md={4}>
           <Card
             sx={{
               pt: 10,
@@ -138,7 +138,7 @@ export function AccountGeneral() {
           </Card>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 8 }}>
+        <Grid xs={12} md={8}>
           <Card sx={{ p: 3 }}>
             <Box
               sx={{

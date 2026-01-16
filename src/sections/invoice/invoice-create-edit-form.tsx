@@ -1,4 +1,4 @@
-import type { IInvoice } from 'src/types/invoice';
+import type { IInvoice, IAddressItem } from 'src/types/invoice';
 
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
@@ -28,9 +28,7 @@ export type InvoiceCreateSchemaType = z.infer<typeof InvoiceCreateSchema>;
 
 export const InvoiceCreateSchema = z
   .object({
-    invoiceTo: schemaUtils.nullableInput(z.custom<IInvoice['invoiceTo']>(), {
-      error: 'Invoice to is required!',
-    }),
+    invoiceTo: z.custom<IAddressItem>().nullable(),
     createDate: schemaUtils.date({ error: { required: 'Create date is required!' } }),
     dueDate: schemaUtils.date({ error: { required: 'Due date is required!' } }),
     items: z.array(

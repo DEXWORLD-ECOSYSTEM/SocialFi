@@ -87,7 +87,7 @@ function filterFeaturesByDay(
   const month = date.getMonth();
   const day = date.getDate();
 
-  const features = featureCollection.features.filter((feature) => {
+  const features = featureCollection.features.filter((feature: any) => {
     const featureDate = new Date(feature.properties?.time);
 
     return (

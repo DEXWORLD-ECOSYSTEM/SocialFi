@@ -16,8 +16,8 @@ import { Stepper, StepOne, StepTwo, StepThree, StepCompleted } from './form-step
 const STEPS = ['Step one', 'Step two', 'Step three'];
 
 const StepOneSchema = z.object({
-  firstName: z.string().min(1, { error: 'Full name is required!' }),
-  lastName: z.string().min(1, { error: 'Last name is required!' }),
+  firstName: z.string().min(1, { message: 'Full name is required!' }),
+  lastName: z.string().min(1, { message: 'Last name is required!' }),
 });
 
 const StepTwoSchema = z.object({
@@ -25,9 +25,10 @@ const StepTwoSchema = z.object({
     z.coerce
       .number()
       .int()
-      .min(1, { error: 'Age is required!' })
-      .min(18, { error: 'Age must be between 18 and 80' })
-      .max(80, { error: 'Age must be between 18 and 80' }),
+      .min(1, { message: 'Age is required!' })
+      .min(18, { message: 'Age must be between 18 and 80' })
+      .max(80, { message: 'Age must be between 18 and 80' })
+      .nullable(),
     { error: 'Age is required!' }
   ),
 });
@@ -48,7 +49,7 @@ type WizardSchemaType = z.infer<typeof WizardSchema>;
 
 const defaultValues: WizardSchemaType = {
   stepOne: { firstName: '', lastName: '' },
-  stepTwo: { age: null },
+  stepTwo: { age: 18 },
   stepThree: { email: '' },
 };
 
@@ -146,13 +147,13 @@ export function FormWizard() {
             <Box sx={{ flex: '1 1 auto' }} />
 
             {activeStep === 0 && (
-              <Button type="submit" variant="contained" onClick={() => handleNext('stepOne')}>
+              <Button type="button" variant="contained" onClick={() => handleNext('stepOne')}>
                 Next
               </Button>
             )}
 
             {activeStep === 1 && (
-              <Button type="submit" variant="contained" onClick={() => handleNext('stepTwo')}>
+              <Button type="button" variant="contained" onClick={() => handleNext('stepTwo')}>
                 Next
               </Button>
             )}
