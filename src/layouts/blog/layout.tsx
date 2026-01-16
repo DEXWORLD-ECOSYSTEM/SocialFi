@@ -11,18 +11,19 @@ import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 
 import { usePathname } from 'src/routes/hooks';
+
 import { allLangs } from 'src/locales/locales-config';
 
 import { Logo } from 'src/components/logo';
 
 import { NavMobile } from '../main/nav/mobile';
 import { NavDesktop } from '../main/nav/desktop';
-import { Footer, HomeFooter } from '../main/footer';
 import { CoreNav } from '../components/core-nav';
+import { Footer, HomeFooter } from '../main/footer';
 import { MenuButton } from '../components/menu-button';
 import { navData as blogNavData } from '../nav-config-blog';
-import { MainSection, LayoutSection, HeaderSection } from '../core';
 import { LanguagePopover } from '../components/language-popover';
+import { MainSection, LayoutSection, HeaderSection } from '../core';
 
 // ----------------------------------------------------------------------
 

@@ -3,7 +3,6 @@
 import type { ButtonProps } from '@mui/material/Button';
 import type { Theme, SxProps } from '@mui/material/styles';
 import type { IconButtonProps } from '@mui/material/IconButton';
-import { useGridApiContext, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import type { GridToolbarQuickFilterProps } from '@mui/x-data-grid';
 
 import { usePopover } from 'minimal-shared/hooks';
@@ -16,6 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
+import { useGridApiContext, GridToolbarQuickFilter } from '@mui/x-data-grid';
 
 import { ExportIcon, FilterIcon } from 'src/theme/core/components/mui-x-data-grid';
 

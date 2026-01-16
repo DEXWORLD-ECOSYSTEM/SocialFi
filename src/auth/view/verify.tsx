@@ -11,9 +11,7 @@ import { paths } from 'src/routes/paths';
 
 import { EmailInboxIcon } from 'src/assets/icons';
 
-import { Form, Field, schemaUtils } from 'src/components/hook-form';
-
-import { FormHead, FormResendCode, FormReturnLink } from 'src/auth/components';
+import { Form, Field, FormHead, schemaUtils, FormResendCode, FormReturnLink } from '../components';
 
 // ----------------------------------------------------------------------
 
@@ -22,8 +20,8 @@ export type VerifySchemaType = z.infer<typeof VerifySchema>;
 export const VerifySchema = z.object({
   code: z
     .string()
-    .min(1, { error: 'Code is required!' })
-    .min(6, { error: 'Code must be at least 6 characters!' }),
+    .min(1, { message: 'Code is required!' })
+    .min(6, { message: 'Code must be at least 6 characters!' }),
   email: schemaUtils.email(),
 });
 

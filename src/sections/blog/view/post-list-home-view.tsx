@@ -1,21 +1,19 @@
 
 import type { ReactNode } from 'react';
+import type { IPostItem } from 'src/types/blog';
 
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 
-import { IPostItem } from 'src/types/blog';
-
+import { PostRecent } from '../item/recent';
+import { PostVideo } from '../components/video';
+import { PostTrending } from '../item/trending';
+import { PostBanner } from '../components/banner';
+import { PostAuthors } from '../components/authors';
+import { PostNewsletter } from '../forms/newsletter';
 // 1. RESTAUREI O IMPORT DO POSTFEATURED
 import { PostFeatured } from '../components/featured';
-import { PostAuthors } from '../components/authors';
 import { PostCommunity } from '../components/community';
-import { PostVideo } from '../components/video';
-import { PostBanner } from '../components/banner';
-import { PostRecent } from '../item/recent';
-import { PostTrending } from '../item/trending';
-import { PostNewsletter } from '../forms/newsletter';
 
 // ----------------------------------------------------------------------
 

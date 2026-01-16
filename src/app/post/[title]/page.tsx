@@ -5,7 +5,7 @@ import { kebabCase } from 'es-toolkit';
 import { notFound } from 'next/navigation';
 
 import { CONFIG } from 'src/global-config';
-import { getPost, getLatestPosts, getPosts } from 'src/actions/blog-ssr';
+import { getPost, getPosts, getLatestPosts } from 'src/actions/blog-ssr';
 
 import { PostDetailsView } from 'src/sections/blog/view';
 

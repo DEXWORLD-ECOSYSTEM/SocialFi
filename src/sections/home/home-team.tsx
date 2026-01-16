@@ -10,8 +10,9 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 
 import { paths } from 'src/routes/paths';
-import { _socials, _carouselsMembers } from 'src/_mock';
 import { RouterLink } from 'src/routes/components';
+
+import { _socials, _carouselsMembers } from 'src/_mock';
 
 import { Image } from 'src/components/image';
 import { Iconify } from 'src/components/iconify';

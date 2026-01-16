@@ -1,4 +1,3 @@
-import type { IPostItem } from 'src/types/blog';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -6,6 +5,7 @@ import Container from '@mui/material/Container'; // <--- IMPORTANTE: Importaçã
 import Typography from '@mui/material/Typography';
 
 import { paths } from 'src/routes/paths';
+
 import { getPosts } from 'src/actions/blog-ssr';
 
 import { PostItem, PostItemLatest } from './item';

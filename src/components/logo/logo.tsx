@@ -1,15 +1,17 @@
 'use client';
 
 import type { LinkProps } from '@mui/material/Link';
+
 import { mergeClasses } from 'minimal-shared/utils';
 
 // Importações visuais
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 
 import { RouterLink } from 'src/routes/components';
+
 import { logoClasses } from './classes';
 
 // ----------------------------------------------------------------------

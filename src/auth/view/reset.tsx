@@ -11,9 +11,8 @@ import { paths } from 'src/routes/paths';
 
 import { PasswordIcon } from 'src/assets/icons';
 
-import { Form, Field, schemaUtils } from 'src/components/hook-form';
+import { Form, Field, FormHead , schemaUtils, FormReturnLink } from '../components';
 
-import { FormHead, FormReturnLink } from 'src/auth/components';
 
 // ----------------------------------------------------------------------
 

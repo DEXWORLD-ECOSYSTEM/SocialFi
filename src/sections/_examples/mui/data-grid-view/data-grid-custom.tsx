@@ -17,7 +17,7 @@ import Avatar from '@mui/material/Avatar';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import LinearProgress from '@mui/material/LinearProgress';
-import { GridToolbar, DataGrid, gridClasses } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, gridClasses } from '@mui/x-data-grid';
 
 import { fPercent } from 'src/utils/format-number';
 import { fDate, fTime } from 'src/utils/format-time';

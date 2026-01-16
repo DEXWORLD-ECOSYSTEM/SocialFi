@@ -13,11 +13,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
-import { Iconify } from 'src/components/iconify';
-import { AnimateLogoRotate } from 'src/components/animate';
-import { Form, Field, schemaUtils } from 'src/components/hook-form';
-
-import { FormHead } from 'src/auth/components';
+import { Form , Field, Iconify, FormHead, schemaUtils, AnimateLogoRotate } from '../components';
 
 // ----------------------------------------------------------------------
 

@@ -2,13 +2,13 @@ import type { Metadata } from 'next';
 import type { IPostItem } from 'src/types/blog';
 
 import { kebabCase } from 'es-toolkit';
+import { notFound } from 'next/navigation';
 
 import { CONFIG } from 'src/global-config';
 import { getPost } from 'src/actions/blog-ssr';
 import axios, { endpoints } from 'src/lib/axios';
 
 import { PostDetailsView } from 'src/sections/blog/view';
-import { notFound } from 'next/navigation';
 
 // ----------------------------------------------------------------------
 

@@ -1,7 +1,7 @@
 'use client';
 
+import type { Theme, SxProps } from '@mui/material/styles';
 import type { IPostItem } from 'src/types/blog';
-import type { SxProps, Theme } from '@mui/material/styles';
 
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
@@ -14,6 +14,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
 
 import { RouterLink } from 'src/routes/components';
+
 import { Iconify } from 'src/components/iconify';
 import { SearchNotFound } from 'src/components/search-not-found';
 

@@ -9,7 +9,7 @@ import { CONFIG } from 'src/global-config';
 import { LocalizationProvider } from 'src/locales';
 import { detectLanguage } from 'src/locales/server';
 import { I18nProvider } from 'src/locales/i18n-provider';
-import { primary as primaryColor, themeConfig } from 'src/theme';
+import { themeConfig, primary as primaryColor } from 'src/theme';
 
 import { detectSettings } from 'src/components/settings/server';
 import { defaultSettings, SettingsProvider } from 'src/components/settings';

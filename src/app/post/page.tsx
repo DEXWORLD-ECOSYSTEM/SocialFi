@@ -1,11 +1,12 @@
 // src/app/post/page.tsx
 
 import { getPosts } from 'src/actions/blog-ssr';
-import { PostListHomeView } from 'src/sections/blog/view/post-list-home-view';
+
 import { Economia } from 'src/sections/blog/item/economia';
 import { Tecnologia } from 'src/sections/blog/item/tecnologia';
-import { MeioAmbiente } from 'src/sections/blog/item/meio-ambiente';
 import { Geopolitica } from 'src/sections/blog/item/geopolitica'; // 1. Importar a nova seção
+import { MeioAmbiente } from 'src/sections/blog/item/meio-ambiente';
+import { PostListHomeView } from 'src/sections/blog/view/post-list-home-view';
 
 // Configuração para execução na Edge da Cloudflare
 export const runtime = 'edge';

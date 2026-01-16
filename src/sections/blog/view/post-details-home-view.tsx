@@ -23,8 +23,8 @@ import { Markdown } from 'src/components/markdown';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
 import { PostItem } from '../item/item';
-import { PostCommentList } from '../details/post-comment-list';
 import { PostCommentForm } from '../forms/post-comment-form';
+import { PostCommentList } from '../details/post-comment-list';
 import { PostDetailsHero } from '../details/post-details-hero';
 
 // ----------------------------------------------------------------------

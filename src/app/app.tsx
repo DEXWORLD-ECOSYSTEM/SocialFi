@@ -4,7 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider as ThemeVarsProvider } from '@mui/material/styles';
 
 import { useTranslate } from 'src/locales';
-import { createTheme, Rtl } from 'src/theme';
+import { Rtl, createTheme } from 'src/theme';
 
 import { Snackbar } from 'src/components/snackbar';
 import { ProgressBar } from 'src/components/progress-bar';

@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 
 import { usePathname } from 'src/routes/hooks';
+
 import { allLangs } from 'src/locales/locales-config';
 
 import { Logo } from 'src/components/logo';
@@ -21,8 +22,8 @@ import { Footer, HomeFooter } from './footer';
 import { CoreNav } from '../components/core-nav';
 import { MenuButton } from '../components/menu-button';
 import { navData as mainNavData } from '../nav-config-main';
-import { MainSection, LayoutSection, HeaderSection } from '../core';
 import { LanguagePopover } from '../components/language-popover';
+import { MainSection, LayoutSection, HeaderSection } from '../core';
 
 // ----------------------------------------------------------------------
 

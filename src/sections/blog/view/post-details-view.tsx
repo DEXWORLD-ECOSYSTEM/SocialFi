@@ -25,9 +25,9 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import { Iconify } from 'src/components/iconify';
 import { Markdown } from 'src/components/markdown';
 
+import { PostCommentForm } from '../forms/post-comment-form';
 import { PostDetailsHero } from '../details/post-details-hero';
 import { PostCommentList } from '../details/post-comment-list';
-import { PostCommentForm } from '../forms/post-comment-form';
 import { PostDetailsToolbar } from '../details/post-details-toolbar';
 
 // ----------------------------------------------------------------------

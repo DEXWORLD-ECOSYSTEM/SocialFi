@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react'; // Import necessário para controlar a quantidade
-
 import type { IPostItem } from 'src/types/blog';
 
-import Box from '@mui/material/Box';
+import { useState } from 'react'; // Import necessário para controlar a quantidade
+
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';

@@ -3,8 +3,8 @@
 import type { IPostItem, IPostFilters } from 'src/types/blog';
 
 import { orderBy } from 'es-toolkit';
-import { useState, useCallback, useMemo } from 'react';
 import { useSetState } from 'minimal-shared/hooks';
+import { useMemo, useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -15,8 +15,8 @@ import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
 import { POST_SORT_OPTIONS } from 'src/_mock';
-import { useGetPosts } from 'src/actions/blog';
 import { BlogLayout } from 'src/layouts/blog';
+import { useGetPosts } from 'src/actions/blog';
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
@@ -52,13 +52,11 @@ export function PostListView() {
 
   // ----------------------------------------------------------------------
   // 🔹 Contadores memorizados (evita múltiplos filter no render)
-  const publishCounts = useMemo(() => {
-    return {
+  const publishCounts = useMemo(() => ({
       all: posts.length,
       published: posts.filter((post) => post.publish === 'published').length,
       draft: posts.filter((post) => post.publish === 'draft').length,
-    };
-  }, [posts]);
+    }), [posts]);
 
   // ----------------------------------------------------------------------
   // 🔹 Resultados da busca
@@ -74,13 +72,11 @@ export function PostListView() {
 
   // ----------------------------------------------------------------------
   // 🔹 Dados finais filtrados e ordenados
-  const dataFiltered = useMemo(() => {
-    return applyFilter({
+  const dataFiltered = useMemo(() => applyFilter({
       inputData: searchResults,
       filters: state,
       sortBy,
-    });
-  }, [searchResults, state, sortBy]);
+    }), [searchResults, state, sortBy]);
 
   // ----------------------------------------------------------------------
   const handleFilterPublish = useCallback(

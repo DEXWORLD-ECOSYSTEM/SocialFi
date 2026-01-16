@@ -12,6 +12,7 @@ import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
 import { CONFIG } from 'src/global-config';
+
 import { varFade, MotionViewport } from 'src/components/animate';
 
 import { FloatLine, FloatPlusIcon } from './components/svg-elements';

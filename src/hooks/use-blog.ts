@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useCallback } from 'react';
 import type { IPostItem } from 'src/types/blog';
+
+import { useState, useCallback } from 'react';
 
 // ----------------------------------------------------------------------
 

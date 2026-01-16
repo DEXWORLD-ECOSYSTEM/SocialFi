@@ -14,8 +14,8 @@ import Typography from '@mui/material/Typography';
 import { MainLayout } from 'src/layouts/main';
 import { layoutClasses } from 'src/layouts/core';
 import { SimpleLayout } from 'src/layouts/simple';
-import { DashboardLayout } from 'src/layouts/dashboard';
 import { AuthCenteredLayout } from 'src/layouts/auth';
+import { DashboardLayout } from 'src/layouts/dashboard';
 
 import { ComponentLayout } from '../../layout';
 

@@ -13,7 +13,6 @@ import { HomeFAQs } from '../home-faqs';
 import { HomeTeam } from '../home-team';
 import { HomeIntegrations } from '../home-integrations';
 import { HomeAdvertisement } from '../home-advertisement';
-
 // 2. IMPORTAR O COMPONENTE DO POP-UP
 import HomeCountdownDialog from '../home-countdown-dialog';
 

@@ -4,7 +4,7 @@ import Link from '@mui/material/Link';
 
 import { RouterLink } from 'src/routes/components';
 
-import { Iconify } from 'src/components/iconify';
+import { Iconify } from './index';
 
 // ----------------------------------------------------------------------
 

@@ -14,24 +14,20 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
-import { Iconify } from 'src/components/iconify';
-import { AnimateLogoRotate } from 'src/components/animate';
-import { Form, Field, schemaUtils } from 'src/components/hook-form';
-
-import { FormHead, SignUpTerms } from 'src/auth/components';
+import { Form, Field , Iconify, FormHead, SignUpTerms, schemaUtils, AnimateLogoRotate } from '../components';
 
 // ----------------------------------------------------------------------
 
 export type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 
 export const SignUpSchema = z.object({
-  firstName: z.string().min(1, { error: 'First name is required!' }),
-  lastName: z.string().min(1, { error: 'Last name is required!' }),
+  firstName: z.string().min(1, { message: 'First name is required!' }),
+  lastName: z.string().min(1, { message: 'Last name is required!' }),
   email: schemaUtils.email(),
   password: z
     .string()
-    .min(1, { error: 'Password is required!' })
-    .min(6, { error: 'Password must be at least 6 characters!' }),
+    .min(1, { message: 'Password is required!' })
+    .min(6, { message: 'Password must be at least 6 characters!' }),
 });
 
 // ----------------------------------------------------------------------
