@@ -17,7 +17,7 @@ import Avatar from '@mui/material/Avatar';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import LinearProgress from '@mui/material/LinearProgress';
-import { Toolbar, DataGrid, gridClasses } from '@mui/x-data-grid';
+import { GridToolbar, DataGrid, gridClasses } from '@mui/x-data-grid';
 
 import { fPercent } from 'src/utils/format-number';
 import { fDate, fTime } from 'src/utils/format-time';
@@ -34,7 +34,6 @@ import {
   CustomToolbarExportButton,
   CustomToolbarFilterButton,
   CustomGridActionsCellItem,
-  CustomToolbarColumnsButton,
   CustomToolbarSettingsButton,
 } from 'src/components/custom-data-grid';
 
@@ -233,10 +232,7 @@ const HIDE_COLUMNS_TOGGLABLE = ['id', 'actions'];
 export function DataGridCustom({ data: rows }: Props) {
   const toolbarOptions = useToolbarSettings();
 
-  const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>({
-    type: 'include',
-    ids: new Set(),
-  });
+  const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
 
   const [columnVisibilityModel, setColumnVisibilityModel] =
     useState<GridColumnVisibilityModel>(HIDE_COLUMNS);
@@ -249,7 +245,7 @@ export function DataGridCustom({ data: rows }: Props) {
     []
   );
 
-  console.info('SELECTED ROWS', Array.from(selectedRows.ids));
+  console.info('SELECTED ROWS', selectedRows);
 
   return (
     <DataGrid
@@ -297,20 +293,19 @@ type CustomToolbarProps = CustomToolbarSettingsButtonProps;
 
 function CustomToolbar({ settings, onChangeSettings }: CustomToolbarProps) {
   return (
-    <Toolbar>
+    <GridToolbar>
       <ToolbarContainer>
         <ToolbarLeftPanel>
           <CustomToolbarQuickFilter />
         </ToolbarLeftPanel>
 
         <ToolbarRightPanel>
-          <CustomToolbarColumnsButton />
           <CustomToolbarFilterButton />
           <CustomToolbarExportButton />
           <CustomToolbarSettingsButton settings={settings} onChangeSettings={onChangeSettings} />
         </ToolbarRightPanel>
       </ToolbarContainer>
-    </Toolbar>
+    </GridToolbar>
   );
 }
 
