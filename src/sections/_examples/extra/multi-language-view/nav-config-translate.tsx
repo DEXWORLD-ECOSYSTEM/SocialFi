@@ -17,7 +17,8 @@ export function navData(t: TFunction<any, any>) {
       items: [
         {
           title: t('app'),
-          path: paths.dashboard.permission,
+          // CORREÇÃO 1: Substituído 'permission' por 'root'
+          path: paths.dashboard.root, 
           icon: <SvgColor src={`${CONFIG.assetsDir}/assets/icons/navbar/ic-invoice.svg`} />,
         },
         {
@@ -52,7 +53,8 @@ export function navData(t: TFunction<any, any>) {
         },
         {
           title: t('invoice'),
-          path: paths.dashboard.blank,
+          // CORREÇÃO 2: Substituído 'blank' (inexistente) por 'root'
+          path: paths.dashboard.root,
           icon: <SvgColor src={`${CONFIG.assetsDir}/assets/icons/navbar/ic-invoice.svg`} />,
         },
       ],
