@@ -1,23 +1,23 @@
-import type { NextConfig } from 'next';
 
-const isStaticExport = false;
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   trailingSlash: true,
-  output: isStaticExport ? 'export' : undefined,
+  output: 'export', // <--- A MUDANÇA MÁGICA (Gera HTML estático)
 
-  // --- OTIMIZACAO EXTREMA DE MEMORIA ---
-  productionBrowserSourceMaps: false, // Sem mapas de fonte
-  compress: false,                    // Sem compressao Gzip no build
-  // -------------------------------------
+  // Otimizações
+  productionBrowserSourceMaps: false,
+  compress: false,
+  
+  // Obrigatório para exportação estática (sem servidor de imagem)
+  images: {
+    unoptimized: true,
+  },
 
   typescript: {
     ignoreBuildErrors: true,
   },
 
-  env: {
-    BUILD_STATIC_EXPORT: JSON.stringify(isStaticExport),
-  },
   allowedDevOrigins: [
     '8082-firebase-socialfi-1768249815935.cluster-gizzoza7hzhfyxzo5d76y3flkw.cloudworkstations.dev',
   ],
