@@ -1,6 +1,7 @@
 import type { InputBaseClasses } from '@mui/material/InputBase';
 import type { OutlinedInputClasses } from '@mui/material/OutlinedInput';
-import type { PickerTextFieldOwnerState } from '@mui/x-date-pickers/models';
+// CORREÇÃO: Removida a importação de PickerTextFieldOwnerState que causava erro
+// import type { PickerTextFieldOwnerState } from '@mui/x-date-pickers/models';
 import type { FilledInputProps, FilledInputClasses } from '@mui/material/FilledInput';
 import type { Theme, CSSObject, Components, ComponentsVariants } from '@mui/material/styles';
 
@@ -15,8 +16,9 @@ import { inputAdornmentClasses } from '@mui/material/InputAdornment';
 
 type InputContext = 'standard' | 'picker';
 
+// CORREÇÃO: Substituído PickerTextFieldOwnerState por any para evitar erro de tipo
 type InputSizeProps = Pick<FilledInputProps, 'size' | 'hiddenLabel'> & {
-  ownerState?: PickerTextFieldOwnerState;
+  ownerState?: any;
 };
 
 type InputBaseVariants = ComponentsVariants<Theme>['MuiInputBase'];
