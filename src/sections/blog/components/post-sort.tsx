@@ -15,14 +15,15 @@ import { usePopover } from 'src/components/custom-popover/hooks';
 
 type Props = BoxProps & {
   sort: string;
-  onSort: (newValue: string) => void;
+  // CORREÇÃO: Alterado de 'string' para 'any' para aceitar o setState do pai
+  // sem conflito de tipagem estrita (Union Type vs String).
+  onSort: (newValue: any) => void; 
   sortOptions: { value: string; label: string }[];
 };
 
 export function PostSort({ sort, onSort, sortOptions, sx, ...other }: Props) {
   const popover = usePopover();
 
-  // Agora buscamos a opção selecionada dentro da lista dinâmica recebida via props
   const selectedOption = sortOptions.find((option) => option.value === sort);
 
   return (
