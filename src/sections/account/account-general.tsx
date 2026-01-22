@@ -62,7 +62,8 @@ export function AccountGeneral() {
     email: '',
     photoURL: null,
     phoneNumber: '',
-    country: null,
+    // CORREÇÃO: Alterado de 'null' para '' (string vazia)
+    country: '', 
     address: '',
     state: '',
     city: '',
