@@ -2,30 +2,36 @@ import type { AxiosRequestConfig } from 'axios';
 
 import axios from 'axios';
 
-import { CONFIG } from 'src/global-config';
-
 // ----------------------------------------------------------------------
 
 const axiosInstance = axios.create({
-  baseURL: CONFIG.serverUrl,
+  // CORREÇÃO: Apontando diretamente para a API de produção
+  baseURL: 'https://api.asppibra.com/',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-/**
- * Optional: Add token (if using auth)
- *
- axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem('accessToken');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-*
-*/
+// ----------------------------------------------------------------------
+// Interceptador para adicionar o Token JWT em todas as requisições
+// ----------------------------------------------------------------------
+axiosInstance.interceptors.request.use(
+  (config) => {
+    // Verifica se está rodando no navegador antes de acessar localStorage
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('accessToken');
+      if (token && config.headers) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
+// ----------------------------------------------------------------------
+// Interceptador de Resposta (Tratamento de Erros)
+// ----------------------------------------------------------------------
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -62,8 +68,9 @@ export const endpoints = {
   calendar: '/api/calendar',
   auth: {
     me: '/api/auth/me',
-    signIn: '/api/auth/sign-in',
-    signUp: '/api/auth/sign-up',
+    // CORREÇÃO: Ajustado para as rotas reais da sua API
+    signIn: '/api/auth/login',
+    signUp: '/api/auth/register',
   },
   mail: {
     list: '/api/mail/list',
