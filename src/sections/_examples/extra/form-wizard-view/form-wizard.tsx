@@ -48,7 +48,8 @@ type WizardSchemaType = z.infer<typeof WizardSchema>;
 
 const defaultValues: WizardSchemaType = {
   stepOne: { firstName: '', lastName: '' },
-  stepTwo: { age: null },
+  // CORREÇÃO: Alterado de 'null' para '0' para satisfazer a tipagem 'number'
+  stepTwo: { age: 0 },
   stepThree: { email: '' },
 };
 
