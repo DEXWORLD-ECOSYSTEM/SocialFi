@@ -1,4 +1,3 @@
-export * from './account-billing-view';
 
 export * from './account-general-view';
 

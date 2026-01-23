@@ -5,7 +5,6 @@ import { paths } from 'src/routes/paths';
 
 import { CONFIG } from 'src/global-config';
 
-import { Label } from 'src/components/label';
 import { SvgColor } from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
@@ -16,7 +15,6 @@ const icon = (name: string) => (
 
 const ICONS = {
   blog: icon('ic-blog'),
-  mail: icon('ic-mail'),
   user: icon('ic-user'),
   file: icon('ic-file'),
   lock: icon('ic-lock'),
@@ -26,7 +24,6 @@ const ICONS = {
   params: icon('ic-params'),
   banking: icon('ic-banking'),
   invoice: icon('ic-invoice'),
-  calendar: icon('ic-calendar'),
   disabled: icon('ic-disabled'),
   external: icon('ic-external'),
   subpaths: icon('ic-subpaths'),
@@ -45,7 +42,6 @@ export const navData: NavSectionProps['data'] = [
     subheader: 'Overview',
     items: [
       { title: 'App', path: paths.dashboard.root, icon: ICONS.dashboard },
-      { title: 'Analytics', path: paths.dashboard.general.analytics, icon: ICONS.analytics },
       { title: 'Banking', path: paths.dashboard.general.banking, icon: ICONS.banking },
       { title: 'File', path: paths.dashboard.general.file, icon: ICONS.file },
     ],
@@ -92,17 +88,6 @@ export const navData: NavSectionProps['data'] = [
         ],
       },
       { title: 'File manager', path: paths.dashboard.fileManager, icon: ICONS.folder },
-      {
-        title: 'Mail',
-        path: paths.dashboard.mail,
-        icon: ICONS.mail,
-        info: (
-          <Label color="error" variant="inverted">
-            +32
-          </Label>
-        ),
-      },
-      { title: 'Calendar', path: paths.dashboard.calendar, icon: ICONS.calendar },
     ],
   },
 ];

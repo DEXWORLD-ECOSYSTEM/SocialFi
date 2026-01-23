@@ -3,7 +3,7 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   trailingSlash: true,
-  output: 'export', // <--- A MUDANÇA MÁGICA (Gera HTML estático)
+  // output: 'export', // <--- A MUDANÇA MÁGICA (Gera HTML estático)
 
   // Otimizações
   productionBrowserSourceMaps: false,

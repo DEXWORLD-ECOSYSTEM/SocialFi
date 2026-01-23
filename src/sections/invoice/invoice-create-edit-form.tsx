@@ -18,7 +18,6 @@ import { _addressBooks } from 'src/_mock';
 
 import { Form, schemaUtils } from 'src/components/hook-form';
 
-import { InvoiceCreateEditAddress } from './invoice-create-edit-address';
 import { InvoiceCreateEditStatusDate } from './invoice-create-edit-status-date';
 import { defaultItem, InvoiceCreateEditDetails } from './invoice-create-edit-details';
 
@@ -133,7 +132,6 @@ export function InvoiceCreateEditForm({ currentInvoice }: Props) {
   return (
     <Form methods={methods}>
       <Card>
-        <InvoiceCreateEditAddress />
         <InvoiceCreateEditStatusDate />
         <InvoiceCreateEditDetails />
       </Card>
