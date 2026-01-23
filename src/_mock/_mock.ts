@@ -36,6 +36,11 @@ export const _mock = {
   postTitle: (index: number) => _postTitles[index],
   tourName: (index: number) => _tourNames[index],
   productName: (index: number) => _productNames[index],
+  // ✅ CORREÇÃO: Adicionada a função 'description' que faltava.
+  // Isso impede o erro "is not a function" em todo o projeto.
+  description: (index: number) => 
+    'The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
+  
   // Contact
   email: (index: number) => _emails[index],
   phoneNumber: (index: number) => _phoneNumbers[index],
