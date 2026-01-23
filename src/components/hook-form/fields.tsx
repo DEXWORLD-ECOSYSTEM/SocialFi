@@ -1,4 +1,4 @@
-import { RHFCode } from './rhf-code';
+import RHFCode from './rhf-code';
 import { RHFRating } from './rhf-rating';
 import { RHFEditor } from './rhf-editor';
 import { RHFSlider } from './rhf-slider';

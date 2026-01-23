@@ -1,6 +1,8 @@
+"use client";
 import type { IUserItem } from 'src/types/user';
 
 import * as z from 'zod';
+import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import { isValidPhoneNumber } from 'react-phone-number-input/input';
@@ -29,18 +31,16 @@ export type UserCreateSchemaType = z.infer<typeof UserCreateSchema>;
 
 export const UserCreateSchema = z.object({
   avatarUrl: schemaUtils.file({ error: 'Avatar is required!' }),
-  name: z.string().min(1, { error: 'Name is required!' }),
+  name: z.string().min(1, { message: 'Name is required!' }),
   email: schemaUtils.email(),
   phoneNumber: schemaUtils.phoneNumber({ isValid: isValidPhoneNumber }),
-  country: schemaUtils.nullableInput(z.string().min(1, { error: 'Country is required!' }), {
-    error: 'Country is required!',
-  }),
-  address: z.string().min(1, { error: 'Address is required!' }),
-  company: z.string().min(1, { error: 'Company is required!' }),
-  state: z.string().min(1, { error: 'State is required!' }),
-  city: z.string().min(1, { error: 'City is required!' }),
-  role: z.string().min(1, { error: 'Role is required!' }),
-  zipCode: z.string().min(1, { error: 'Zip code is required!' }),
+  country: z.string().min(1, { message: 'Country is required!' }).nullable(),
+  address: z.string().min(1, { message: 'Address is required!' }),
+  company: z.string().min(1, { message: 'Company is required!' }),
+  state: z.string().min(1, { message: 'State is required!' }),
+  city: z.string().min(1, { message: 'City is required!' }),
+  role: z.string().min(1, { message: 'Role is required!' }),
+  zipCode: z.string().min(1, { message: 'Zip code is required!' }),
   // Not required
   status: z.string(),
   isVerified: z.boolean(),
@@ -55,27 +55,29 @@ type Props = {
 export function UserCreateEditForm({ currentUser }: Props) {
   const router = useRouter();
 
-  const defaultValues: UserCreateSchemaType = {
-    status: '',
-    avatarUrl: null,
-    isVerified: true,
-    name: '',
-    email: '',
-    phoneNumber: '',
-    country: '',
-    state: '',
-    city: '',
-    address: '',
-    zipCode: '',
-    company: '',
-    role: '',
-  };
+  const defaultValues = useMemo<UserCreateSchemaType>(
+    () => ({
+      status: currentUser?.status || '',
+      name: currentUser?.name || '',
+      email: currentUser?.email || '',
+      state: currentUser?.state || '',
+      city: currentUser?.city || '',
+      role: currentUser?.role || '',
+      address: currentUser?.address || '',
+      zipCode: currentUser?.zipCode || '',
+      company: currentUser?.company || '',
+      country: currentUser?.country || '',
+      avatarUrl: currentUser?.avatarUrl || null,
+      phoneNumber: currentUser?.phoneNumber || '',
+      isVerified: currentUser?.isVerified || true,
+    }),
+    [currentUser]
+  );
 
   const methods = useForm({
     mode: 'onSubmit',
     resolver: zodResolver(UserCreateSchema),
     defaultValues,
-    values: currentUser,
   });
 
   const {
@@ -103,7 +105,7 @@ export function UserCreateEditForm({ currentUser }: Props) {
   return (
     <Form methods={methods} onSubmit={onSubmit}>
       <Grid container spacing={3}>
-        <Grid size={{ xs: 12, md: 4 }}>
+        <Grid item xs={12} md={4}>
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
             {currentUser && (
               <Label
@@ -203,7 +205,7 @@ export function UserCreateEditForm({ currentUser }: Props) {
           </Card>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 8 }}>
+        <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
             <Box
               sx={{
@@ -218,10 +220,10 @@ export function UserCreateEditForm({ currentUser }: Props) {
               <Field.Phone name="phoneNumber" label="Phone number" defaultCountry="US" />
 
               <Field.CountrySelect
-                fullWidth
                 name="country"
                 label="Country"
                 placeholder="Choose a country"
+                getValue={(value) => value || ''}
               />
 
               <Field.Text name="state" label="State/region" />

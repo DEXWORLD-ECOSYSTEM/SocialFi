@@ -1,3 +1,6 @@
+"use client";
+'use client';
+
 import type { TextFieldProps } from '@mui/material/TextField';
 import type { AutocompleteProps } from '@mui/material/Autocomplete';
 

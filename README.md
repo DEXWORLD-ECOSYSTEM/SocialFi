@@ -4,16 +4,21 @@
 
 ## Installation
 
-**Using Yarn (Recommended)**
+**Using pnpm (Recommended)**
 
 ```sh
-yarn install
-yarn dev
+pnpm install
+pnpm dev
 ```
 
-**Using Npm**
+**Alternatives (Yarn or Npm)**
 
 ```sh
+# Using Yarn
+yarn install
+yarn dev
+
+# Using Npm
 npm i
 npm run dev
 ```
@@ -21,8 +26,13 @@ npm run dev
 ## Build
 
 ```sh
+# Using pnpm
+pnpm build
+
+# Using Yarn
 yarn build
-# or
+
+# Using Npm
 npm run build
 ```
 
@@ -52,6 +62,38 @@ To set up your local server:
 
 **NOTE:**
 _When copying folders remember to also copy hidden files like .env. This is important because .env files often contain environment variables that are crucial for the application to run correctly._
+
+---
+
+## Stacks e Versões
+
+Esta é a lista de stacks e suas respectivas versões utilizadas no projeto, extraídas do `package.json`.
+
+### Stacks Principais (dependencies)
+
+| Stack | Versão | Descrição |
+| :--- | :--- | :--- |
+| Next.js | `^16.1.2` | Framework para React com renderização no servidor. |
+| React | `^19.2.3` | Biblioteca para construção de interfaces de usuário. |
+| Material-UI (MUI)| `^7.3.7` | Biblioteca de componentes de UI para React. |
+| Emotion | `^11.14.0` | Biblioteca de CSS-in-JS. |
+| Tiptap | `^3.15.3` | Editor de texto rico (Rich Text Editor). |
+| React Hook Form | `^7.63.0` | Gerenciamento de formulários. |
+| Zod | `^4.1.11` | Validação de schemas e tipos. |
+| i18next | `^25.5.2` | Framework de internacionalização. |
+| SWR | `^2.3.6` | Biblioteca para data fetching em React. |
+| Axios | `^1.12.2` | Cliente HTTP baseado em Promises. |
+| Framer Motion | `^12.23.22`| Biblioteca de animação para React. |
+| ApexCharts | `^5.3.5` | Biblioteca para criação de gráficos. |
+| Day.js | `^1.11.18` | Manipulação e formatação de datas. |
+
+### Stacks de Desenvolvimento (devDependencies)
+
+| Stack | Versão | Descrição |
+| :--- | :--- | :--- |
+| TypeScript | `^5.9.2` | Superset do JavaScript que adiciona tipagem estática. |
+| ESLint | `^9.36.0` | Ferramenta de linting para JavaScript e TypeScript. |
+| Prettier | `^3.6.2` | Formatador de código. |
 
 ---
 
@@ -108,32 +150,33 @@ Essa é a minha arvore do front end dedicada ao sistema de autenticação:
 
 ---
 
-## Arquitetura do Módulo de Blog (Versão Escalável)
+## Arquitetura do Módulo de Blog (Versão Híbrida)
 
-A arquitetura do blog foi refatorada para um padrão de alta escalabilidade, pronta para suportar uma plataforma de larga escala. Mantendo a base moderna do Next.js, a nova estrutura aprimora a separação de responsabilidades, introduz camadas de resiliência de dados e otimiza a organização de componentes para facilitar a manutenção e o crescimento futuro.
+A arquitetura do blog foi projetada para alta escalabilidade, combinando a robustez do Next.js com uma clara separação de responsabilidades. **Atualmente, a listagem principal de posts (`/post`) utiliza uma abordagem de renderização no cliente (`'use client'`) para agilidade, enquanto a infraestrutura para um fluxo de dados server-side completo já está implementada e pronta para ser ativada.**
 
-### Fluxo de Dados Resiliente (Do Servidor à Tela)
+### Fluxo de Dados Atual (Client-Side na Listagem de Posts)
 
-O fluxo de dados foi enriquecido com camadas de validação e transformação, garantindo robustez desde a fonte de dados até a interface do usuário.
+1.  **Requisição e Carregamento Inicial**: O usuário acessa a página `/post`. O Next.js exibe imediatamente o componente `src/app/post/loading.tsx` (*Skeleton Screens*), melhorando a percepção de performance.
 
-1.  **Requisição e Estado de Carregamento**: O usuário acessa a página `/post`. Imediatamente, o Next.js renderiza o `src/app/post/loading.tsx`, exibindo *Skeleton Screens* para o usuário e melhorando a percepção de performance.
+2.  **Renderização no Cliente**: A página `src/app/post/page.tsx`, marcada como `'use client'`, é carregada no navegador do usuário.
 
-2.  **Execução no Servidor (`page.tsx`)**: Em paralelo, o Next.js executa a página `src/app/post/page.tsx` no servidor.
+3.  **Acesso Direto aos Dados Mockados**: O componente importa diretamente a lista de posts do arquivo de mock: `import { _posts } from 'src/_mock/_blog';`.
 
-3.  **Ação de Dados (`actions/blog-ssr.ts`)**: A página chama a função `getPosts()` (uma Server Action) de `src/actions/blog-ssr.ts`.
+4.  **Lógica no Cliente**: Toda a lógica de paginação, busca e filtros é executada diretamente no navegador, manipulando o array de posts importado.
 
-4.  **Busca e Validação dos Dados Brutos**:
-    *   A função `getPosts()` busca os dados da fonte (atualmente o Mock em `src/_mock/_blog.ts`, futuramente uma API externa).
-    *   **NOVO**: Os dados brutos recebidos são validados contra um esquema definido em `src/schemas/blog-zod.ts` usando a biblioteca Zod. Se os dados não corresponderem ao contrato esperado (ex: um campo obrigatório está faltando), a função lança um erro.
+5.  **Injeção de Props**: Os dados processados são passados via `props` para o componente de apresentação `<PostListHomeView />`.
 
-5.  **Mapeamento para o Domínio da UI**:
-    *   **NOVO**: Após a validação, os dados passam por uma camada de mapeamento em `src/actions/mappers/blog-mapper.ts`. Esta função transforma os dados da API (ex: `cover_image`, `published_at`) para o formato que os componentes de UI esperam (ex: `coverUrl`, `createdAt`). Isso desacopla a UI da estrutura da API.
+6.  **Tratamento de Erros**: Caso ocorra um erro durante a renderização no cliente, o Next.js captura e exibe o componente `src/app/post/error.tsx`.
 
-6.  **Tratamento de Erros (`error.tsx`)**: Se qualquer etapa da busca, validação ou mapeamento falhar, o Next.js automaticamente captura o erro e renderiza o arquivo `src/app/post/error.tsx`, que apresenta uma mensagem amigável e uma opção para tentar novamente, evitando que a aplicação inteira quebre.
+### Infraestrutura Server-Side (Pronta para Ativação)
 
-7.  **Injeção de Props para o Cliente**: Com os dados validados e mapeados, eles são retornados como `props` para o componente de view principal: `<PostListHomeView posts={posts} />`.
+Embora a listagem de posts opere no cliente, a arquitetura para um fluxo de dados resiliente e executado no servidor já existe, ideal para quando a aplicação se conectar a uma API real:
 
-8.  **Renderização da UI no Cliente**: O componente de view, sendo um Componente de Cliente (`'use client'`), recebe os dados já prontos e renderiza a interface final.
+*   **Ações de Dados (`actions/blog-ssr.ts`)**: Contém a lógica para buscar dados no servidor (Server Actions), como a função `getPosts()`.
+*   **Validação de Dados (`schemas/blog-zod.ts`)**: Esquemas Zod para validar a integridade dos dados recebidos de uma API.
+*   **Mapeamento de Dados (`actions/mappers/blog-mapper.ts`)**: Transforma os dados da API para o formato esperado pela UI, desacoplando o front-end do back-end.
+
+**Nota para Desenvolvedores:** Para migrar a listagem de posts para server-side, basta refatorar `src/app/post/page.tsx` para remover o `'use client'`, chamar a Server Action `getPosts()` e passar os dados recebidos como props.
 
 ### Árvore de Arquivos e Componentes Otimizada
 
@@ -227,19 +270,6 @@ src
 
 ```
 
-### Análise das Melhorias Estruturais
-
-*   **`schemas/`**: Introduz uma camada de validação (Contrato de Dados) que torna a aplicação resiliente a mudanças inesperadas na API, prevenindo bugs em produção.
-*   **`actions/mappers/`**: Cria uma camada de anti-corrupção, desacoplando o design dos seus componentes da estrutura de dados do backend. Você pode mudar a API sem precisar refatorar a UI.
-*   **`loading.tsx` e `error.tsx`**: Implementam os padrões de UI/UX mais modernos do Next.js (Suspense e Error Boundaries), melhorando drasticamente a experiência do usuário durante o carregamento e em caso de falhas.
-*   **Segmentação em `sections/blog/`**:
-    *   **`components/`**: Agrupa componentes complexos que orquestram a interatividade (busca, sort, carrossel).
-    *   **`item/`**: Isola as unidades mais atômicas (os cards de post), facilitando a criação de novas variações (compacto, largo, etc.) sem impacto no resto do sistema.
-    *   **`forms/`**: Separa claramente os componentes responsáveis pela entrada de dados do usuário.
-*   **`constants.ts`**: Centraliza a configuração do módulo, permitindo que um desenvolvedor altere opções (como os critérios de ordenação) em um único lugar, sem precisar "caçar" a lógica nos componentes.
-
-Esta nova arquitetura não apenas organiza o código existente, mas estabelece uma fundação sólida e escalável para o futuro da plataforma.
-
 ---
 
 ## Decisões de Design de UI/UX
@@ -252,7 +282,7 @@ Esta é a análise técnica de como esse efeito é alcançado no código:
 
 **1. A Arquitetura em Camadas (Z-Index)**
 
-O efeito é um "sanduíche" de três camadas sobrepostas dentro do componente `PostCarouselFeatured`:
+O efeito é um "sanduíche" de três camadas sobrepostas dentro do componente `PostFeatured`:
 
 -   **Camada Base (Imagem):** Renderizamos a imagem de capa do post (`coverUrl`) com um `filter: 'blur(24px)'`. O desfoque difunde as cores da imagem, criando uma textura suave e dinâmica que muda conforme o carrossel desliza.
 -   **Camada de Contraste (Overlay):** Um pseudo-elemento `&:before` aplica uma sobreposição preta com 70% de transparência (`alpha(..., 0.7)`). Essa camada é crucial para garantir que o card de conteúdo branco se destaque visualmente, fornecendo o contraste necessário.
@@ -273,7 +303,7 @@ Um detalhe técnico importante é o uso de `overflow: hidden` no contêiner pai.
 
 **Análise de Desempenho**
 
-Ao aproveitar o componente `<Image />` do projeto (que provavelmente envolve o `next/image` do Next.js), o efeito permanece altamente performático:
+Ao aproveitar o componente `<Image />` do projeto (que provavelmente envolve o `next/image` do Next.js), o efeito permanece highly performático:
 
 -   A imagem de fundo é carregada e otimizada pelo Next.js.
 -   O efeito de desfoque é um filtro CSS, que é acelerado por hardware e processado pela GPU do navegador. Isso garante animações e transições suaves entre os slides do carrossel sem impactar o desempenho.

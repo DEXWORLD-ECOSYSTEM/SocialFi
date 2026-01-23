@@ -7,7 +7,7 @@ import { useTheme } from '@mui/material/styles';
 
 import { DashboardContent } from 'src/layouts/dashboard';
 import { SeoIllustration } from 'src/assets/illustrations';
-import { _appAuthors, _appRelated, _appFeatured, _appInvoices, _appInstalled } from 'src/_mock';
+import { _appAuthors, _appRelated, _appFeatured, _appInstalled } from 'src/_mock';
 
 import { svgColorClasses } from 'src/components/svg-color';
 
@@ -18,7 +18,6 @@ import { AppWelcome } from '../app-welcome';
 import { AppFeatured } from '../app-featured';
 import { AppTopAuthors } from '../app-top-authors';
 import { AppTopRelated } from '../app-top-related';
-import { AppNewInvoices } from '../app-new-invoices';
 import { AppAreaInstalled } from '../app-area-installed';
 import { AppWidgetSummary } from '../app-widget-summary';
 import { AppCurrentDownload } from '../app-current-download';
@@ -150,20 +149,6 @@ export function OverviewAppView() {
                 },
               ],
             }}
-          />
-        </Grid>
-
-        <Grid size={{ xs: 12, lg: 8 }}>
-          <AppNewInvoices
-            title="New Invoices"
-            tableData={_appInvoices}
-            headCells={[
-              { id: 'id', label: 'Invoice ID' },
-              { id: 'category', label: 'Category' },
-              { id: 'price', label: 'Price' },
-              { id: 'status', label: 'Status' },
-              { id: '' },
-            ]}
           />
         </Grid>
 

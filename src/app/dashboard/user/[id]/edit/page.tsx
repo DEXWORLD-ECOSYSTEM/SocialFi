@@ -1,44 +1,39 @@
-import type { Metadata } from 'next';
 import type { IUserItem } from 'src/types/user';
 
-import { CONFIG } from 'src/global-config';
-import { _userList } from 'src/_mock/_user';
+import { _mock } from 'src/_mock';
 
-import { UserEditView } from 'src/sections/user/view';
+import { UserCreateEditForm } from 'src/sections/user/user-create-edit-form';
 
 // ----------------------------------------------------------------------
 
-export const metadata: Metadata = { title: `User edit | Dashboard - ${CONFIG.appName}` };
+export const runtime = 'nodejs';
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{
+    id: string;
+  }>;
 };
 
-export default async function Page({ params }: Props) {
+export default async function UserEditPage({ params }: Props) {
   const { id } = await params;
 
-  const currentUser = _userList.find((user) => user.id === id);
+  const currentUser = {
+    id: _mock.id(1),
+    role: _mock.role(1),
+    email: _mock.email(1),
+    name: _mock.fullName(1),
+    state: 'Rio de Janeiro',
+    status: 'active',
+    address: _mock.fullAddress(1),
+    country: 'Brazil', 
+    avatarUrl: _mock.image.avatar(1),
+    phoneNumber: _mock.phoneNumber(1),
+    // CORREÇÃO: Usando string fixa ou tentativa de acesso seguro para evitar erro de tipo
+    company: 'ASPPIBRA', 
+    isVerified: true,
+    city: 'Paraty',
+    zipCode: '23970-000',
+  } as IUserItem;
 
-  return <UserEditView user={currentUser} />;
-}
-
-// ----------------------------------------------------------------------
-
-/**
- * Static Exports in Next.js
- *
- * 1. Set `isStaticExport = true` in `next.config.{mjs|ts}`.
- * 2. This allows `generateStaticParams()` to pre-render dynamic routes at build time.
- *
- * For more details, see:
- * https://nextjs.org/docs/app/building-your-application/deploying/static-exports
- *
- * NOTE: Remove all "generateStaticParams()" functions if not using static exports.
- */
-export async function generateStaticParams() {
-  const data: IUserItem[] = CONFIG.isStaticExport ? _userList : _userList.slice(0, 1);
-
-  return data.map((user) => ({
-    id: user.id,
-  }));
+  return <UserCreateEditForm currentUser={currentUser} />;
 }

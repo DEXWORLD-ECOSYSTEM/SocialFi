@@ -21,8 +21,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
-import { _tags } from 'src/_mock';
-
 import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
 import { Form, Field, schemaUtils } from 'src/components/hook-form';
@@ -160,7 +158,7 @@ export function PostCreateEditForm({ currentPost }: Props) {
             multiple
             freeSolo
             disableCloseOnSelect
-            options={_tags.map((option) => option)}
+            options={[]}
             getOptionLabel={(option) => option}
             slotProps={{
               chip: { color: 'info' },
@@ -184,7 +182,7 @@ export function PostCreateEditForm({ currentPost }: Props) {
             multiple
             freeSolo
             disableCloseOnSelect
-            options={_tags.map((option) => option)}
+            options={[]}
             getOptionLabel={(option) => option}
             slotProps={{
               chip: { color: 'info' },

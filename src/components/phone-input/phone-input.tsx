@@ -1,3 +1,4 @@
+"use client";
 import type { TextFieldProps } from '@mui/material/TextField';
 import type { PhoneValue, PhoneCountry, PhoneInputProps } from './types';
 
@@ -26,12 +27,12 @@ export function PhoneInput({
   placeholder,
   fullWidth = true,
   variant: variantProp,
-  /********/
+  /**********/
   value,
   country,
   onChange,
   defaultCountry,
-  /********/
+  /**********/
   hideSelect,
   ...other
 }: PhoneInputProps) {

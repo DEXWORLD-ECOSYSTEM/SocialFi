@@ -73,8 +73,8 @@ export const _posts = POST_TITLES.map((title, index) => {
     id: _mock.id(index),
     title,
     category, // Categoria garantida
-    description: _mock.description(index),
-    content: _mock.content(index),
+    description: 'This is a mock description.',
+    content: 'This is mock content.',
     coverUrl: _mock.image.cover(index),
     // Forçamos quase tudo como 'published' para não sumir da tela
     publish: index % 10 === 0 ? 'draft' : 'published', 
@@ -85,7 +85,7 @@ export const _posts = POST_TITLES.map((title, index) => {
     totalFavorites: _mock.number.nativeL(index + 3),
     tags: ['BTC', 'Crypto', 'Trading', 'Web3', 'DeFi'].slice(0, (index % 4) + 2),
     metaTitle: title,
-    metaDescription: _mock.description(index),
+    metaDescription: 'This is a mock meta description.',
     metaKeywords: ['crypto', 'news', 'analysis'],
     author: {
       name: _mock.fullName(index),
@@ -99,7 +99,7 @@ export const _posts = POST_TITLES.map((title, index) => {
       id: _mock.id(i),
       name: _mock.fullName(i),
       avatarUrl: _mock.image.avatar(i),
-      message: _mock.sentence(i),
+      message: 'This is a mock sentence.',
       postedAt: _mock.time(i),
       users: [{ id: _mock.id(i), name: _mock.fullName(i), avatarUrl: _mock.image.avatar(i) }],
       replyComment: [],

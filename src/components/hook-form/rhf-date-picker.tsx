@@ -1,9 +1,9 @@
+"use client";
+'use client';
 
-import type { Dayjs } from 'dayjs';
-import type { TimePickerProps } from '@mui/x-date-pickers/TimePicker';
 import type { DatePickerProps } from '@mui/x-date-pickers/DatePicker';
+import type { TimePickerProps } from '@mui/x-date-pickers/TimePicker';
 import type { DateTimePickerProps } from '@mui/x-date-pickers/DateTimePicker';
-import type { PickersTextFieldProps } from '@mui/x-date-pickers/PickersTextField';
 
 import dayjs from 'dayjs';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -14,27 +14,12 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 // ----------------------------------------------------------------------
 
-type DateInput = Dayjs | Date | string | number | null | undefined;
-
-function normalizeDateValue(value: DateInput): Dayjs | null {
-  if (dayjs.isDayjs(value)) return value;
-
-  const parsed = value ? dayjs(value) : null;
-  return parsed?.isValid() ? parsed : null;
-}
-
-// ----------------------------------------------------------------------
-
-type PickerProps<
-  T extends DatePickerProps<Dayjs> | TimePickerProps<Dayjs> | DateTimePickerProps<Dayjs>,
-> = T & {
+export type RHFDatePickerProps = DatePickerProps<any> & {
   name: string;
-  slotProps?: T['slotProps'] & {
-    textField?: Partial<PickersTextFieldProps>;
-  };
+  helperText?: React.ReactNode;
 };
 
-export function RHFDatePicker({ name, slotProps, ...other }: PickerProps<DatePickerProps<Dayjs>>) {
+export function RHFDatePicker({ name, helperText, ...other }: RHFDatePickerProps) {
   const { control } = useFormContext();
 
   return (
@@ -44,23 +29,14 @@ export function RHFDatePicker({ name, slotProps, ...other }: PickerProps<DatePic
       render={({ field, fieldState: { error } }) => (
         <DatePicker
           {...field}
-          value={normalizeDateValue(field.value)}
-          onChange={(newValue) => {
-            if (!newValue) {
-              field.onChange(null);
-              return;
-            }
-
-            const parsedValue = dayjs(newValue);
-            field.onChange(parsedValue.isValid() ? parsedValue.format() : newValue);
-          }}
+          value={dayjs(field.value)}
+          onChange={(newValue) => field.onChange(newValue)}
           slotProps={{
-            ...slotProps,
             textField: {
-              ...slotProps?.textField,
+              fullWidth: true,
               error: !!error,
-              helperText: error?.message ?? slotProps?.textField?.helperText,
-            } as any,
+              helperText: error ? error?.message : helperText,
+            },
           }}
           {...other}
         />
@@ -71,7 +47,12 @@ export function RHFDatePicker({ name, slotProps, ...other }: PickerProps<DatePic
 
 // ----------------------------------------------------------------------
 
-export function RHFTimePicker({ name, slotProps, ...other }: PickerProps<TimePickerProps<Dayjs>>) {
+export type RHFTimePickerProps = TimePickerProps<any> & {
+  name: string;
+  helperText?: React.ReactNode;
+};
+
+export function RHFTimePicker({ name, helperText, ...other }: RHFTimePickerProps) {
   const { control } = useFormContext();
 
   return (
@@ -81,23 +62,14 @@ export function RHFTimePicker({ name, slotProps, ...other }: PickerProps<TimePic
       render={({ field, fieldState: { error } }) => (
         <TimePicker
           {...field}
-          value={normalizeDateValue(field.value)}
-          onChange={(newValue) => {
-            if (!newValue) {
-              field.onChange(null);
-              return;
-            }
-
-            const parsedValue = dayjs(newValue);
-            field.onChange(parsedValue.isValid() ? parsedValue.format() : newValue);
-          }}
+          value={dayjs(field.value)}
+          onChange={(newValue) => field.onChange(newValue)}
           slotProps={{
-            ...slotProps,
             textField: {
-              ...slotProps?.textField,
+              fullWidth: true,
               error: !!error,
-              helperText: error?.message ?? slotProps?.textField?.helperText,
-            } as any,
+              helperText: error ? error?.message : helperText,
+            },
           }}
           {...other}
         />
@@ -108,11 +80,12 @@ export function RHFTimePicker({ name, slotProps, ...other }: PickerProps<TimePic
 
 // ----------------------------------------------------------------------
 
-export function RHFDateTimePicker({
-  name,
-  slotProps,
-  ...other
-}: PickerProps<DateTimePickerProps<Dayjs>>) {
+export type RHFDateTimePickerProps = DateTimePickerProps<any> & {
+  name: string;
+  helperText?: React.ReactNode;
+};
+
+export function RHFDateTimePicker({ name, helperText, ...other }: RHFDateTimePickerProps) {
   const { control } = useFormContext();
 
   return (
@@ -122,23 +95,14 @@ export function RHFDateTimePicker({
       render={({ field, fieldState: { error } }) => (
         <DateTimePicker
           {...field}
-          value={normalizeDateValue(field.value)}
-          onChange={(newValue) => {
-            if (!newValue) {
-              field.onChange(null);
-              return;
-            }
-
-            const parsedValue = dayjs(newValue);
-            field.onChange(parsedValue.isValid() ? parsedValue.format() : newValue);
-          }}
+          value={dayjs(field.value)}
+          onChange={(newValue) => field.onChange(newValue)}
           slotProps={{
-            ...slotProps,
             textField: {
-              ...slotProps?.textField,
+              fullWidth: true,
               error: !!error,
-              helperText: error?.message ?? slotProps?.textField?.helperText,
-            } as any,
+              helperText: error ? error?.message : helperText,
+            },
           }}
           {...other}
         />

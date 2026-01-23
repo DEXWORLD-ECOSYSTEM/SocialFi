@@ -73,9 +73,9 @@ export function PostDetailsView({ post }: Props) {
           px: { xs: 2, sm: 3 },
         }}
       >
-        <Typography variant="subtitle1">{post?.description}</Typography>
+        <Typography variant="subtitle1">{String(post?.description || '')}</Typography>
 
-        <Markdown children={post?.content} />
+        <Markdown children={post?.content || ''} />
 
         <Stack
           spacing={3}
@@ -88,7 +88,7 @@ export function PostDetailsView({ post }: Props) {
           ]}
         >
           <Box sx={{ gap: 1, display: 'flex', flexWrap: 'wrap' }}>
-            {post?.tags.map((tag) => (
+            {(post?.tags || []).map((tag) => (
               <Chip key={tag} label={tag} variant="soft" />
             ))}
           </Box>
@@ -122,7 +122,7 @@ export function PostDetailsView({ post }: Props) {
                 },
               }}
             >
-              {post?.favoritePerson.map((person) => (
+              {(post?.favoritePerson || []).map((person) => (
                 <Avatar key={person.name} alt={person.name} src={person.avatarUrl} />
               ))}
             </AvatarGroup>
