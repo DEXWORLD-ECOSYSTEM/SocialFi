@@ -49,9 +49,13 @@ export const _mock = {
   sentence: (index: number) => 
     'The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
 
-  // ✅ CORREÇÃO 4 (NOVA): Adicionando a função taskNames que quebrou o último build
+  // ✅ CORREÇÃO 4: Mantendo a função taskNames
   taskNames: (index: number) => 
     ['Prepare Monthly Financial Report', 'Design New Marketing Campaign', 'Analyze Customer Feedback', 'Update Website Content', 'Conduct Market Research'][index % 5],
+
+  // ✅ CORREÇÃO 5 (NOVA): Adicionando a função courseNames que quebrou o último build
+  courseNames: (index: number) => 
+    ['Minimal UI Design', 'Python for Beginners', 'React Masterclass', 'Data Science 101', 'Digital Marketing Strategy'][index % 5],
 
   // Contact
   email: (index: number) => _emails[index],
