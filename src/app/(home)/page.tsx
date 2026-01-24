@@ -4,6 +4,11 @@ import { HomeView } from 'src/sections/home/view';
 
 // ----------------------------------------------------------------------
 
+// ✅ BLINDAGEM OBRIGATÓRIA:
+// Landing Pages são pesadas (Hero, Features, Animações).
+// Mudamos para 'nodejs' para garantir o limite de 50MB e evitar erros no deploy.
+export const runtime = 'nodejs';
+
 export const metadata: Metadata = {
   title: 'Minimals UI: The starting point for your next project',
   description:
