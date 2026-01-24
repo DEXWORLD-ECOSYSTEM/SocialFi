@@ -6,6 +6,10 @@ import { AccountSocialsView } from 'src/sections/account/view';
 
 // ----------------------------------------------------------------------
 
+// ✅ CORREÇÃO PREVENTIVA:
+// Definimos 'nodejs' para garantir o limite de 50MB.
+export const runtime = 'nodejs';
+
 export const metadata: Metadata = {
   title: `Account socials settings | Dashboard - ${CONFIG.appName}`,
 };
