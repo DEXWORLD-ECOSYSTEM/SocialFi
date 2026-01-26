@@ -11,13 +11,6 @@ pnpm install
 pnpm dev
 ```
 
-**Alternatives (Yarn or Npm)**
-
-```sh
-# Using Yarn
-yarn install
-yarn dev
-
 # Using Npm
 npm i
 npm run dev
