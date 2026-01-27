@@ -16,8 +16,9 @@ import { defaultSettings, SettingsProvider } from 'src/components/settings';
 
 import { AuthProvider as JwtAuthProvider } from 'src/auth/context';
 
-import App from './app';
 import { Analytics } from '@vercel/analytics/next';
+
+import App from './app';
 
 // ----------------------------------------------------------------------
 
