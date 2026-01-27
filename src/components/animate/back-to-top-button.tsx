@@ -1,15 +1,9 @@
 'use client';
-
 import type { FabProps } from '@mui/material/Fab';
-
 import { cloneElement } from 'react';
 import { useBackToTop } from 'minimal-shared/hooks';
-
 import Fab from '@mui/material/Fab';
-
 import { Iconify } from '../iconify';
-
-// ----------------------------------------------------------------------
 
 type BackToTopProps = FabProps & {
   isDebounce?: boolean;
@@ -40,18 +34,16 @@ export function BackToTopButton({
       sx={[
         (theme) => ({
           position: 'fixed',
-          transform: 'scale(0)',
-          // Ajuste de precisão:
           right: theme.spacing(2),
-          bottom: theme.spacing(8.5), // Ajustado para ficar logo acima do CoreNav (aprox 68px)
-          width: 40, // Garantindo o tamanho exato do SpeedDial
-          height: 40, // Garantindo o tamanho exato do SpeedDial
+          bottom: theme.spacing(2), // POSIÇÃO INFERIOR
+          width: 40,
+          height: 40,
           zIndex: theme.zIndex.speedDial,
-          bgcolor: '#00C896', // Padronizando a cor conforme a imagem
+          bgcolor: '#00C896',
           color: 'white',
           '&:hover': { bgcolor: '#00A87D' },
+          transform: isVisible ? 'scale(1)' : 'scale(0)',
           transition: theme.transitions.create(['transform', 'background-color']),
-          ...(isVisible && { transform: 'scale(1)' }),
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
