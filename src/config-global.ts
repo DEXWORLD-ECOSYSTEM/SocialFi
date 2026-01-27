@@ -21,10 +21,11 @@ export type ConfigValue = {
 // ----------------------------------------------------------------------
 
 export const CONFIG: ConfigValue = {
-  appName: 'DEX World', // Atualizado para o nome do seu ecossistema
+  appName: 'DEX World',
   appVersion: packageJson.version,
-  // Sincronizado com a chave que você salvou na Vercel:
-  serverUrl: process.env.NEXT_PUBLIC_HOST_API ?? '', 
+  // O .replace(/\/$/, '') garante que mesmo se houver uma barra no dashboard da Vercel, 
+  // ela será removida aqui para evitar caminhos como //posts
+  serverUrl: (process.env.NEXT_PUBLIC_HOST_API ?? '').replace(/\/$/, ''), 
   assetsDir: process.env.NEXT_PUBLIC_ASSETS_DIR ?? '',
   isStaticExport: JSON.parse(process.env.BUILD_STATIC_EXPORT ?? 'false'),
   /**
